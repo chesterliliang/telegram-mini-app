@@ -9,11 +9,15 @@ const eSIMs = [
   { id: 3, name: 'Plan C', data: '10GB', validity: '180 days', price: '49 USD', image: cardpng },
 ];
 
-const ESIMList = () => {
-  const handleBuyNow = (eSIMName) => {
-    alert(`You have selected ${eSIMName} for purchase!`);
-  };
+const handleBuyNow = (planName) => {
+  alert(`You have selected ${planName}.`);
+};
 
+const openLink = () => {
+  window.open('https://example.com', '_blank'); // 替换为实际链接
+};
+
+const ESIMList = () => {
   return (
     <div className="esim-container">
       <img src={logo} alt="Logo" className="logo" />
@@ -48,7 +52,10 @@ const ESIMList = () => {
                 <td className="right-align">{eSIM.price}</td>
               </tr>
               <tr>
-                <td colSpan={2}>
+                <td>
+                  <a href="#" onClick={openLink} className="link-button">139 countries</a>
+                </td>
+                <td>
                   <button className="buy-button" onClick={() => handleBuyNow(eSIM.name)}>Buy Now</button>
                 </td>
               </tr>

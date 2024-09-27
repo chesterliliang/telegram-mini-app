@@ -114,7 +114,13 @@ html, body {
     color: white; /* 白色文字 */
     padding: 5px 10px;
     cursor: pointer;
-    width: 35%; /* 按钮宽度为表格的35% */
+    width: 150px; /* 按钮宽度为表格的35% */
     float: right; /* 右对齐 */
     margin-top: 10px; /* 上方留间距 */
+}
+
+.link-button {
+    color: white; /* 超链接文字颜色 */
+    text-decoration: underline; /* 添加下划线 */
+    cursor: pointer; /* 鼠标悬停时显示手形 */
 }
