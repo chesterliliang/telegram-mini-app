@@ -13,7 +13,7 @@ html, body {
 
 .esim-container {
     width: 100vw; /* 使用视口宽度 */
-    height: 100vh; /* 占满整个视口高度 */
+    height: calc(100vh - 50px); /* 占满整个视口高度，留出TAB高度 */
     padding: 0; /* 清除内边距 */
     margin: 0; /* 清除外边距 */
     background-color: #313030; /* 深灰背景 */
@@ -119,8 +119,43 @@ html, body {
     margin-top: 10px; /* 上方留间距 */
 }
 
+.tab-container {
+    display: flex;
+    justify-content: space-around; /* 均匀分布 */
+    background-color: #313030; /* 与页面相同的背景色 */
+    padding: 10px 0; /* 上下内边距 */
+    border-top: 1px solid rgba(255, 255, 255, 0.2); /* 细白边框 */
+    position: absolute; /* 绝对定位 */
+    bottom: 0; /* 固定在底部 */
+    width: 100%; /* 占满宽度 */
+}
+
+.tab-container button {
+    color: white; /* 设置字体颜色为白色 */
+    background: none; /* 移除背景 */
+    border: none; /* 移除边框 */
+    cursor: pointer; /* 鼠标指针为手型 */
+    font-size: 16px; /* 字体大小 */
+}
+
+.tab-container button:hover {
+    background-color: #e0e0e0; /* 鼠标悬停时背景色 */
+}
+
+.tab-icon-container {
+    display: flex;
+    flex-direction: column; /* 纵向排列 */
+    align-items: center; /* 居中对齐 */
+}
+
+.tab-icon {
+    width: 20px; /* 图标宽度 */
+    height: 20px; /* 图标高度 */
+    margin-bottom: 5px; /* 图标与文字间隔 */
+}
+
 .link-button {
-    color: white; /* 超链接文字颜色 */
+    color: white; /* 设置文字颜色为白色 */
     text-decoration: underline; /* 添加下划线 */
-    cursor: pointer; /* 鼠标悬停时显示手形 */
+    cursor: pointer; /* 鼠标指针为手型 */
 }
