@@ -11,14 +11,12 @@ import { TonConnectUIProvider } from '@tonconnect/ui-react';
 // Rainbow Kit
 import './polyfills';
 
-import { createWalletConnectModal } from './configs/walletConnect';
-
 // Telegram Mini App SDK
 import WebApp from '@twa-dev/sdk';
 
 // App + Styles
 import App from './App';
-import './index.css';
+import './ESIMList.css';
 
 // Hide the main button
 WebApp.MainButton.hide();
@@ -29,8 +27,6 @@ WebApp.ready();
 // Enable the closing confirmation
 WebApp.enableClosingConfirmation();
 
-// Create the WalletConnect modal
-createWalletConnectModal();
 
 const root = ReactDOM.createRoot(
     document.getElementById('root') as HTMLElement

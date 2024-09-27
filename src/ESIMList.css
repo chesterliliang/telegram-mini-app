@@ -1,0 +1,120 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.esim-container {
+    width: 100vw; /* 使用视口宽度 */
+    height: 100vh; /* 占满整个视口高度 */
+    padding: 0; /* 清除内边距 */
+    margin: 0; /* 清除外边距 */
+    background-color: #313030; /* 深灰背景 */
+    overflow-y: auto; /* 允许上下滚动 */
+    scrollbar-width: none; /* 隐藏滚动条（Firefox） */
+    -ms-overflow-style: none;  /* 隐藏滚动条（IE和Edge） */
+}
+
+.esim-container::-webkit-scrollbar {
+    display: none; /* 隐藏滚动条（Chrome和Safari） */
+}
+
+.logo {
+    display: block;
+    margin: 20px auto; /* 居中并增加间距 */
+    width: 96px; /* logo 宽度 */
+    height: 96px; /* logo 高度 */
+}
+
+.subtitle {
+    text-align: center; /* 字体居中 */
+    color: white; /* 白色文字 */
+    font-family: 'Microsoft YaHei', sans-serif; /* 使用微软雅黑 */
+    font-size: 22px; /* 字体略小于 Available eSIMs */
+    margin-bottom: 20px; /* 增加间距 */
+}
+
+.title {
+    text-align: center; /* 标题居中 */
+    color: white; /* 白色文字 */
+    font-size: 24px; /* 缩小字体 */
+    font-weight: lighter; /* 采用更纤细的字体 */
+}
+
+.esim-table-container {
+    margin: 20px auto; /* 表格间隔和居中对齐 */
+    width: 90%; /* 表格宽度为页面的90% */
+}
+
+.esim-table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: rgba(56, 78, 152, 0.9); /* 透明度为90% */
+    position: relative; /* 相对定位以支持绝对定位的子元素 */
+    border-radius: 15px; /* 圆角设置 */
+    overflow: hidden; /* 隐藏溢出部分 */
+}
+
+.esim-table td {
+    color: white; /* 白色文字 */
+    padding: 8px;
+    border-top: 1px solid rgba(255, 255, 255, 0.5); /* 顶部线 */
+    font-family: 'Consolas', monospace; /* 使用 Consolas 字体 */
+    font-size: 14px; /* 缩小字体 */
+}
+
+.image-cell {
+    position: relative; /* 为了覆盖表格 */
+    text-align: right; /* 图片右对齐 */
+}
+
+.esim-image {
+    width: 101px; /* 图片宽度 */
+    height: 64px; /* 图片高度 */
+    position: absolute; /* 绝对定位 */
+    top: 3%; /* 顶部对齐 */
+    right: 5%; /* 右侧留5% */
+}
+
+.icon {
+    width: 16px; /* 图标大小 */
+    height: 16px;
+    margin-right: 5px; /* 图标与文字间隔 */
+}
+
+.right-align {
+    text-align: right; /* 右列右对齐 */
+    padding-right: 5%; /* 右列右侧留5% */
+}
+
+/* 隐藏顶端和底部的白线 */
+.esim-table tr:first-child td {
+    border-top: none; /* 隐藏顶部线 */
+}
+
+.esim-table tr:last-child td {
+    border-bottom: none; /* 隐藏底部线 */
+}
+
+/* 隐藏竖线 */
+.esim-table td:not(:first-child) {
+    border-left: none; /* 隐藏竖线 */
+}
+
+.buy-button {
+    background-color: transparent; /* 透明背景 */
+    border: 1px solid white; /* 白色细线 */
+    color: white; /* 白色文字 */
+    padding: 5px 10px;
+    cursor: pointer;
+    width: 35%; /* 按钮宽度为表格的35% */
+    float: right; /* 右对齐 */
+    margin-top: 10px; /* 上方留间距 */
+}
