@@ -16,7 +16,7 @@ import WebApp from '@twa-dev/sdk';
 
 // App + Styles
 import App from './App';
-import './ESIMList.css';
+import './Store.css';
 
 // Hide the main button
 WebApp.MainButton.hide();

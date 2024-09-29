@@ -1,11 +1,9 @@
-import { useState } from 'react';
-import './ESIMList.css';
+
+import './Store.css';
 import cardpng from './assets/card.png';
 import icon from './assets/icon.png';
 import logo from './assets/logo.png'; // 确保 logo 图片路径正确
-import MyESIMs from './MyESIMs'; // 导入 MyESIMs 组件
-import Token from './Token'; // 导入 Token 组件
-import Profile from './Profile'; // 导入 Profile 组件
+
 
 const eSIMs = [
   { id: 1, name: 'Plan A', data: '1GB', validity: '7 days', price: '5 USD', image: cardpng },
@@ -13,7 +11,7 @@ const eSIMs = [
   { id: 3, name: 'Plan C', data: '10GB', validity: '180 days', price: '49 USD', image: cardpng },
 ];
 
-const Store = () => (
+const Store = () => {
   <div>
     {eSIMs.map(eSIM => (
       <div className="esim-table-container" key={eSIM.id}>
@@ -56,61 +54,15 @@ const Store = () => (
       </div>
     ))}
   </div>
-);
-
-const ESIMList = () => {
-  const [activeTab, setActiveTab] = useState('Store');
-
-  const renderContent = () => {
-    switch (activeTab) {
-      case 'Store':
-        return <Store />;
-      case 'MyESIMs':
-        return <MyESIMs />;;
-      case 'Token':
-        return <Token />;
-      case 'Profile':
-        return <Profile />;
-      default:
-        return <Store />;
-    }
-  };
 
   return (
     <div className="esim-container">
       <img src={logo} alt="Logo" className="logo" />
       <h2 className="subtitle">DeSIM.io</h2>
       <h1 className="title">Data Plans</h1>
-      {renderContent()}
-
-      <div className="tab-container">
-        <button onClick={() => setActiveTab('Store')}>
-          <div className="tab-icon-container">
-            <img src={icon} alt="Store Icon" className="tab-icon" />
-            <span>Store</span>
-          </div>
-        </button>
-        <button onClick={() => setActiveTab('MyESIMs')}>
-          <div className="tab-icon-container">
-            <img src={icon} alt="MyESIMs Icon" className="tab-icon" />
-            <span>MyESIMs</span>
-          </div>
-        </button>
-        <button onClick={() => setActiveTab('Token')}>
-          <div className="tab-icon-container">
-            <img src={icon} alt="Token Icon" className="tab-icon" />
-            <span>Token</span>
-          </div>
-        </button>
-        <button onClick={() => setActiveTab('Profile')}>
-          <div className="tab-icon-container">
-            <img src={icon} alt="Profile Icon" className="tab-icon" />
-            <span>Profile</span>
-          </div>
-        </button>
-      </div>
     </div>
   );
 };
 
-export default ESIMList;
+
+export default Store;
