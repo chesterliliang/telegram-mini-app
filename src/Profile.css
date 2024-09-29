@@ -1,0 +1,26 @@
+.profile-container {
+    text-align: center; /* h2元素居中 */
+    color: white; /* 字体颜色为白色 */
+    font-family: 'Consolas', monospace; /* 字体设置 */
+}
+
+.profile-table {
+    width: 90%; /* 表格宽度 */
+    margin: 20px auto; /* 居中并增加间距 */
+    background-color: #565656; /* 浅灰底色 */
+    border-collapse: collapse; /* 合并边框 */
+}
+
+.profile-table td {
+    padding: 10px; /* 内边距 */
+    color: white; /* 白色文字 */
+    font-family: 'Consolas', monospace; /* 字体设置 */
+}
+
+.profile-table .left-align {
+    text-align: left; /* 左列左对齐 */
+}
+
+.profile-table .right-align {
+    text-align: right; /* 右列右对齐 */
+}

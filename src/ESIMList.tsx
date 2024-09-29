@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './ESIMList.css';
 import cardpng from './assets/card.png';
 import icon from './assets/icon.png';
 import logo from './assets/logo.png'; // 确保 logo 图片路径正确
+import MyESIMs from './MyESIMs'; // 导入 MyESIMs 组件
+import Token from './Token'; // 导入 Token 组件
+import Profile from './Profile'; // 导入 Profile 组件
 
 const eSIMs = [
   { id: 1, name: 'Plan A', data: '1GB', validity: '7 days', price: '5 USD', image: cardpng },
@@ -55,9 +58,6 @@ const Store = () => (
   </div>
 );
 
-const Token = () => <div>Token Content</div>;
-const Profile = () => <div>Profile Content</div>;
-
 const ESIMList = () => {
   const [activeTab, setActiveTab] = useState('Store');
 
@@ -65,8 +65,8 @@ const ESIMList = () => {
     switch (activeTab) {
       case 'Store':
         return <Store />;
-      case 'eSIMs':
-        return <div>eSIMs Content</div>;
+      case 'MyESIMs':
+        return <MyESIMs />;;
       case 'Token':
         return <Token />;
       case 'Profile':
@@ -90,10 +90,10 @@ const ESIMList = () => {
             <span>Store</span>
           </div>
         </button>
-        <button onClick={() => setActiveTab('eSIMs')}>
+        <button onClick={() => setActiveTab('MyESIMs')}>
           <div className="tab-icon-container">
-            <img src={icon} alt="eSIMs Icon" className="tab-icon" />
-            <span>eSIMs</span>
+            <img src={icon} alt="MyESIMs Icon" className="tab-icon" />
+            <span>MyESIMs</span>
           </div>
         </button>
         <button onClick={() => setActiveTab('Token')}>

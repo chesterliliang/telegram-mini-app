@@ -3,6 +3,9 @@
     "private": true,
     "version": "0.0.0",
     "type": "module",
+    "sideEffects": [
+    "./dist/telegram-web-apps.js"
+  ],
     "scripts": {
         "dev": "vite",
         "dev-expose": "vite --host",
