@@ -1,9 +1,10 @@
 import { useState } from 'react';
 import './App.css';
 import Store from './Store';
-import UeSIM from './eSIM'; // 导入 MyESIMs 组件
-import Token from './Token'; // 导入 Token 组件
-import Profile from './Profile'; // 导入 Profile 组件
+import UeSIM from './eSIM';
+import Token from './Token';
+import Profile from './Profile';
+import Payment from './Payment'; // 导入 Payment 组件
 
 import iconStore_Line from './assets/store-line.png';
 import iconStore_Fill from './assets/store-fill.png';
@@ -13,22 +14,25 @@ import iconToken_Line from './assets/money-dollar-circle-line.png';
 import iconToken_Fill from './assets/money-dollar-circle-fill.png';
 import iconProfile_Line from './assets/profile-line.png';
 import iconProfile_Fill from './assets/profile-fill.png';
-const App = () => {
 
+const App = () => {
   const [activeTab, setActiveTab] = useState('Store');
+  const [selectedPlan, setSelectedPlan] = useState<string | null>(null); // 修改状态类型
 
   const renderContent = () => {
     switch (activeTab) {
       case 'Store':
-        return <Store />;
+        return <Store onBuyNow={setSelectedPlan} setActiveTab={setActiveTab} />; // 传递 setActiveTab
       case 'eSIM':
-        return <UeSIM />;;
+        return <UeSIM />;
       case 'Token':
         return <Token />;
       case 'Profile':
         return <Profile />;
+      case 'Payment':
+        return <Payment planType={selectedPlan} />; // 传递选中的 Plan 类型
       default:
-        return <Store />;
+        return <Store onBuyNow={setSelectedPlan} setActiveTab={setActiveTab} />;
     }
   };
 
@@ -38,26 +42,26 @@ const App = () => {
       <div className="tab-container">
         <button onClick={() => setActiveTab('Store')}>
           <div className="tab-icon-container">
-            <img src={activeTab === 'Store' ? iconStore_Fill : iconStore_Line} alt="Profile Icon" className="tab-icon" />
+            <img src={activeTab === 'Store' ? iconStore_Fill : iconStore_Line} alt="Store Icon" className="tab-icon" />
             <span className={activeTab === 'Store' ? 'active-tab' : ''}>Store</span>
           </div>
         </button>
         <button onClick={() => setActiveTab('eSIM')}>
           <div className="tab-icon-container">
-            <img src={activeTab === 'eSIM' ? iconSIM_Fill : iconSIM_Line} alt="Profile Icon" className="tab-icon" />
+            <img src={activeTab === 'eSIM' ? iconSIM_Fill : iconSIM_Line} alt="eSIM Icon" className="tab-icon" />
             <span className={activeTab === 'eSIM' ? 'active-tab' : ''}>eSIM</span>
           </div>
         </button>
         <button onClick={() => setActiveTab('Token')}>
           <div className="tab-icon-container">
-            <img src={activeTab === 'Token' ? iconToken_Fill : iconToken_Line} alt="Profile Icon" className="tab-icon" />
+            <img src={activeTab === 'Token' ? iconToken_Fill : iconToken_Line} alt="Token Icon" className="tab-icon" />
             <span className={activeTab === 'Token' ? 'active-tab' : ''}>Token</span>
           </div>
         </button>
         <button onClick={() => setActiveTab('Profile')}>
           <div className="tab-icon-container">
-          <img src={activeTab === 'Profile' ? iconProfile_Fill : iconProfile_Line} alt="Profile Icon" className="tab-icon" />
-          <span className={activeTab === 'Profile' ? 'active-tab' : ''}>Profile</span>
+            <img src={activeTab === 'Profile' ? iconProfile_Fill : iconProfile_Line} alt="Profile Icon" className="tab-icon" />
+            <span className={activeTab === 'Profile' ? 'active-tab' : ''}>Profile</span>
           </div>
         </button>
       </div>

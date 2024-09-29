@@ -10,7 +10,19 @@ const eSIMs = [
   { id: 3, name: 'Plan C', data: '10GB', validity: '180 days', price: '49 USD', image: cardpng },
 ];
 
-const Store = () => {
+interface StoreProps {
+  onBuyNow: (planType: string) => void; // 定义 onBuyNow 的参数类型
+  setActiveTab: (tab: string) => void; // 定义 setActiveTab 的参数类型
+}
+// /const Store = ({  onBuyNow, setActiveTab }) => {
+
+const Store: React.FC<StoreProps> = ({ onBuyNow, setActiveTab }) => {
+
+  const handleBuyNow = (planType: string) => { // 定义 planType 类型
+    onBuyNow(planType);
+    setActiveTab('Payment');
+  };
+  
   return (
     <div className="esim-container">
       <div className="header-container">
@@ -54,7 +66,7 @@ const Store = () => {
                   <a href="https://example.com" className="link-button">139 countries</a>
                 </td>
                 <td colSpan={1}>
-                  <button className="buy-button" onClick={() => alert(`Buying ${eSIM.name}`)}>Buy Now</button>
+                  <button className="buy-button" onClick={() => handleBuyNow(eSIM.name)}>Buy Now</button>
                 </td>
               </tr>
             </tbody>
