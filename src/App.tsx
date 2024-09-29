@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Store from './Store';
-import MyESIMs from './MyESIMs'; // 导入 MyESIMs 组件
+import UeSIM from './eSIM'; // 导入 MyESIMs 组件
 import Token from './Token'; // 导入 Token 组件
 import Profile from './Profile'; // 导入 Profile 组件
 import icon from './assets/icon.png';
@@ -13,8 +13,8 @@ const App = () => {
     switch (activeTab) {
       case 'Store':
         return <Store />;
-      case 'MyESIMs':
-        return <MyESIMs />;;
+      case 'eSIM':
+        return <UeSIM />;;
       case 'Token':
         return <Token />;
       case 'Profile':
@@ -34,10 +34,10 @@ const App = () => {
             <span>Store</span>
           </div>
         </button>
-        <button onClick={() => setActiveTab('MyESIMs')}>
+        <button onClick={() => setActiveTab('eSIM')}>
           <div className="tab-icon-container">
-            <img src={icon} alt="MyESIMs Icon" className="tab-icon" />
-            <span>MyESIMs</span>
+            <img src={icon} alt="eSIM Icon" className="tab-icon" />
+            <span>eSIM</span>
           </div>
         </button>
         <button onClick={() => setActiveTab('Token')}>
