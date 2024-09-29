@@ -12,7 +12,11 @@ const eSIMs = [
 ];
 
 const Store = () => {
-  <div>
+  return (
+     <div className="esim-container">
+      <img src={logo} alt="Logo" className="logo" />
+      <h2 className="subtitle">DeSIM.io</h2>
+      <h1 className="title">Data Plans</h1>
     {eSIMs.map(eSIM => (
       <div className="esim-table-container" key={eSIM.id}>
         <table className="esim-table">
@@ -54,13 +58,6 @@ const Store = () => {
       </div>
     ))}
   </div>
-
-  return (
-    <div className="esim-container">
-      <img src={logo} alt="Logo" className="logo" />
-      <h2 className="subtitle">DeSIM.io</h2>
-      <h1 className="title">Data Plans</h1>
-    </div>
   );
 };
 

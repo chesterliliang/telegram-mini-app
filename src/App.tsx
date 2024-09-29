@@ -26,7 +26,6 @@ const App = () => {
 
   return (
     <div>
-      <Store />
       {renderContent()}
       <div className="tab-container">
         <button onClick={() => setActiveTab('Store')}>
