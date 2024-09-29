@@ -20,6 +20,7 @@ html, body {
     overflow-y: auto; /* 允许上下滚动 */
     scrollbar-width: none; /* 隐藏滚动条（Firefox） */
     -ms-overflow-style: none;  /* 隐藏滚动条（IE和Edge） */
+    text-align: center; /* 使整个容器内的内容居中 */
 }
 
 .esim-container::-webkit-scrollbar {
@@ -27,26 +28,21 @@ html, body {
 }
 
 .logo {
-    display: block;
-    margin: 20px auto; /* 居中并增加间距 */
+    margin-bottom: 10px; /* logo 和标题之间的间距 */
     width: 96px; /* logo 宽度 */
     height: 96px; /* logo 高度 */
 }
+
 
 .subtitle {
     text-align: center; /* 字体居中 */
     color: white; /* 白色文字 */
     font-family: 'Microsoft YaHei', sans-serif; /* 使用微软雅黑 */
     font-size: 22px; /* 字体略小于 Available eSIMs */
-    margin-bottom: 20px; /* 增加间距 */
+    margin: 0; /* 移除额外的下边距 */
 }
 
-.title {
-    text-align: center; /* 标题居中 */
-    color: white; /* 白色文字 */
-    font-size: 24px; /* 缩小字体 */
-    font-weight: lighter; /* 采用更纤细的字体 */
-}
+
 
 .esim-table-container {
     margin: 20px auto; /* 表格间隔和居中对齐 */
@@ -109,14 +105,15 @@ html, body {
 }
 
 .buy-button {
-    background-color: transparent; /* 透明背景 */
-    border: 1px solid white; /* 白色细线 */
+    background-color: #e4a945; /* 透明背景 */
+    border: 0px solid white; /* 白色细线 */
     color: white; /* 白色文字 */
     padding: 5px 10px;
     cursor: pointer;
     width: 150px; /* 按钮宽度为表格的35% */
     float: right; /* 右对齐 */
     margin-top: 10px; /* 上方留间距 */
+    border-radius: 8px; /* 添加圆角，数值可根据需要调整 */
 }
 
 .tab-container {
@@ -158,4 +155,44 @@ html, body {
     color: white; /* 设置文字颜色为白色 */
     text-decoration: underline; /* 添加下划线 */
     cursor: pointer; /* 鼠标指针为手型 */
+}
+
+
+
+.header-container {
+    display: flex;
+    flex-direction: column; /* 垂直排列 */
+    align-items: center; /* 水平居中 */
+    margin-bottom: 20px; /* 与标题之间的间距 */
+}
+
+.logo {
+    margin-right: 10px; /* logo 和标题之间的间距 */
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 居中对齐 */
+    margin-top: 20px; /* 与 header 的间距 */
+    color: white; /* 白色文字 */
+    font-size: 24px; /* 缩小字体 */
+    font-weight: lighter; /* 采用更纤细的字体 */
+}
+
+.global-icon {
+    margin-right: 10px; /* 图标与标题之间的间距 */
+}
+
+.data-plans-text {
+    margin-left: 5px; /* Data Plans 文本与图标之间的间距 */
+}
+
+/* 表格样式 */
+.esim-table {
+    width: 100%; /* 表格宽度为100% */
+}
+
+.esim-table td {
+    vertical-align: top; /* 垂直对齐 */
 }
