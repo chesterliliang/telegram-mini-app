@@ -1,81 +1,120 @@
-import React, { useEffect, useState } from 'react';
 import './Points.css';
-import icon from './assets/icon.png'; // 右侧图标
-import logo from './assets/logo.png'; // 左侧Logo
-import card from './assets/card.png'; // 卡片图片
-import { Telegram, WebApp as WebAppTypes } from '@twa-dev/types'; // Telegram类型
+import { useEffect, useState } from 'react';
+import cardH from './assets/cardH.png';
+import logo from './assets/logo.png';
+import hand from './assets/hand.svg';
+import coin from './assets/coinsy64.svg';
+import circleLine from './assets/circle-line.svg';
+import iconsetting from './assets/settings-line.svg';
+import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types";
 
 const telegramWindow = window as unknown as Window & { Telegram: Telegram };
-export const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
+const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
 
 const Points = () => {
-    const [username, setUsername] = useState('User'); // 默认用户名
-    const [points, setPoints] = useState(9999); // 初始积分
+  const [points, setPoints] = useState<number>(9999);
+  const [clicks, setClicks] = useState<number>(0);
+  const [isClicked, setIsClicked] = useState<boolean>(false);
+  const [username, setUsername] = useState<string>('Username');
+  const [highlightPoints, setHighlightPoints] = useState<boolean>(false);
 
-    // 通过Telegram获取用户名的方法
-    useEffect(() => {
-        const initData = telegramWindow ? WebApp.initData : null;
-        if (initData) {
-            const params = new URLSearchParams(initData);
-            const userJson = params.get('user'); // 获取 user 字段的 JSON 数据
-            if (userJson) {
-                const user = JSON.parse(decodeURIComponent(userJson));
-                setUsername(user.username);
-            }
-        }
-    }, []);
+  // 获取 Telegram 用户名
+  useEffect(() => {
+    const initData = telegramWindow ? WebApp.initData : null;
+    if (initData) {
+      const params = new URLSearchParams(initData);
+      const userJson = params.get('user');
+      if (userJson) {
+        const user = JSON.parse(decodeURIComponent(userJson));
+        setUsername(user.username || 'Username');
+      }
+    }
+  }, []);
 
-    // 每秒更新积分，值在3-5之间增长
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setPoints(prev => prev + Math.floor(Math.random() * 3) + 3); // 增长3-5
-        }, 500); // 每秒钟更新两次
-        return () => clearInterval(interval);
-    }, []);
+  // 设置分数的自然增长
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setPoints((prevPoints) => prevPoints + Math.floor(Math.random() * 3) + 3); // 随机增加 3-5
+    }, 500); // 每 0.5 秒增加两次
 
-    return (
-        <div className="points-container">
-            {/* 顶部广告栏 */}
-            <div className="ad-bar">
-                <div className="pad-text">Exclusive Offers - Earn More Points with Every Trip!</div>
-            </div>
+    return () => clearInterval(interval);
+  }, []);
 
-            {/* 名称和图标行 */}
-            <div className="top-row">
-                <div className="left-section">
-                    <img src={logo} alt="Logo" className="logo-image" />
-                    <span className="name-text">DeSIM.io</span>
-                </div>
-                <div className="right-section">
-                    <span className="username-text">{username}</span>
-                    <img src={icon} alt="Icon" className="icon-image" />
-                </div>
-            </div>
+  // 控制点击区域的点击次数和得分增加
+  const handleClick = () => {
+    if (clicks < 4) {
+      setPoints((prevPoints) => prevPoints + Math.floor(Math.random() * 21) + 30); // 增加 30-50
+      setClicks((prevClicks) => prevClicks + 1); // 增加点击次数
+      setIsClicked(true); // 设置为点击状态
+      setHighlightPoints(true); // 设置分数金色高亮
+      setTimeout(() => {
+        setHighlightPoints(false); // 500ms 后恢复原色
+      }, 500);
 
-            {/* 圆角表格 */}
-            <div className="points-table">
-                <table className="table-layout">
-                    <tbody>
-                        <tr>
-                            <td className="left-cell">Mined Speed <br /> <span className="small-text">LV.1</span></td>
-                            <td className="right-cell">Travel Rewards <br /> <span className="small-text">0</span></td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2} className="center-cell">
-                                Points <br />
-                                <div className="points-flip">{points}</div> {/* 积分动态显示 */}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colSpan={2} className="center-cell">
-                                <img src={card} alt="Card" className="card-image" />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+      setTimeout(() => {
+        setIsClicked(false); // 恢复点击效果
+      }, 1000); // 1 秒后恢复
+    }
+  };
+
+  // 每秒重置点击次数
+  useEffect(() => {
+    const resetClicks = setInterval(() => {
+      setClicks(0);
+    }, 1000);
+
+    return () => clearInterval(resetClicks);
+  }, []);
+
+  return (
+    <div className="points-container">
+      {/* 广告栏 */}
+      <div className="ad-bar">
+        <span className="ad-text">Special Offer! Earn rewards with DeSIM.io</span>
+      </div>
+
+      <div className="top-row">
+        {/* 左侧为 DeSIM.io 和 logo */}
+        <div className="left-section">
+          <img src={logo} alt="Logo" className="logo" />
+          <span className="name-text">DeSIM.io</span>
         </div>
-    );
+        {/* 右侧为 Telegram 的用户名 */}
+        <div className="right-section">
+          <span className="name-text">{username}</span>
+          <img src={iconsetting} alt="Icon" className="icon-image" />
+        </div>
+      </div>
+
+      {/* Card with overlay layers */}
+      <div className="points-table" onClick={handleClick}>
+        <table className="table-layout">
+          <tbody>
+            <tr>
+              <td className="left-cell">Mined Speed <br /> LV.1</td>
+              <td className="right-cell">Travel Rewards <br /> 0</td>
+            </tr>
+            <tr>
+              <td colSpan={2} className="center-cell">
+                <div className="card-container">
+                  <img src={cardH} alt="Card" className="card-image" />
+                  <img src={circleLine} alt="Circle Line" className="circle-image" />
+                  <img src={hand} alt="Hand Icon" className="hand-image" />
+                </div>
+                <div className="points">
+                  <div className="points-text">Points</div>
+                  <div className={`points-value ${highlightPoints ? 'highlight' : ''}`}>
+                    <img src={coin} alt="Coin Icon" className="coin-icon" />
+                    {points}
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
 };
 
 export default Points;

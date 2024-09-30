@@ -13,35 +13,35 @@ body, html {
 .points-container {
     width: 100vw;
     height: 100vh;
-    padding: 0px;
-    background-color: transparent; /* Transparent background */
+    padding: 0;
+    background-color: transparent;
 }
 
-/* Ad bar at the top */
+/* 广告栏样式 */
 .ad-bar {
     width: 100vw;
-    height: 6vh; /* 6% of viewport height */
-    background-color: #222222; /* Dark grey */
+    height: 6vh;
+    background-color: #222222;
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    overflow: hidden; /* Hide overflowing text */
+    overflow: hidden;
     white-space: nowrap;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Slight glowing effect */
+    box-shadow: 0 0 5px rgba(85, 0, 255, 0.6);
+    animation: ad-glow 2s infinite alternate;
 }
 
-.pad-text {
-    color: #ffffff;
+.ad-text {
+    color: #fff;
     font-size: 16px;
     font-weight: bold;
-    animation: scroll-text 10s linear infinite;
-    background: linear-gradient(90deg, blue, orange); /* Dynamic gradient */
+    background: linear-gradient(90deg, blue, orange);
     -webkit-background-clip: text;
-    color: transparent; /* Text uses gradient */
+    color: transparent;
+    animation: scroll-text 10s linear infinite, color-shift 2s linear infinite;
 }
 
-/* Scrolling effect for ad text */
 @keyframes scroll-text {
     from {
         transform: translateX(100%);
@@ -51,7 +51,12 @@ body, html {
     }
 }
 
-/* Top row with namename and icon */
+@keyframes color-shift {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 100% 50%; }
+}
+
+/* 顶部的DeSIM.io和用户名 */
 .top-row {
     display: flex;
     justify-content: space-between;
@@ -61,12 +66,14 @@ body, html {
 }
 
 .left-section {
-    text-align: left;
+    display: flex;
+    align-items: center;
     padding-left: 5%;
 }
 
 .right-section {
-    text-align: right;
+    display: flex;
+    align-items: center;
     padding-right: 5%;
 }
 
@@ -74,17 +81,9 @@ body, html {
     font-size: 14px;
     font-weight: bold;
     color: white;
-    margin-left: 5px;
 }
 
-.username-text {
-    font-size: 14px;
-    font-weight: bold;
-    color: white;
-    margin-right: 10px;
-}
-
-.logo-image {
+.logo {
     width: 16px;
     height: 16px;
     animation: glow-icon 1.5s infinite alternate;
@@ -93,43 +92,37 @@ body, html {
 .icon-image {
     width: 16px;
     height: 16px;
-    animation: glow-icon 1.5s infinite alternate; /* Icon glow effect */
+    animation: glow-icon 1.5s infinite alternate;
 }
 
-/* Rounded table */
+/* 圆角表格 */
 .points-table {
-    width: 90%; /* Horizontal size: 90% */
-    height: 80%; /* Vertical size: 80% */
+    width: 90%;
+    height: 80%;
     margin: 0 auto;
     padding: 10px;
 }
 
 .table-layout {
     width: 100%;
-    border: 1px solid rgba(0, 123, 255, 0.8); /* Light blue border */
+    border: 1px solid rgba(0, 123, 255, 0.8);
     border-radius: 10px;
-    background-color: black; /* Black table background */
-    box-shadow: 0 0 25px rgba(85, 0, 255, 0.8), 0 0 25px rgba(255, 165, 0, 0.6); /* Blue-orange glowing effect */
-    text-align: center;
-    animation: glow-table 1.5s infinite alternate; /* Flashing glow */
+    background-color: black;
+    box-shadow: 0 0 20px rgba(85, 0, 255, 0.8); /* 取消橙色光效 */
+    animation: glow-table 1.5s infinite alternate;
 }
 
-/* Table glow effect */
 @keyframes glow-table {
-    from {
-        box-shadow: 0 0 15px rgba(85, 0, 255, 0.6), 0 0 15px rgba(255, 165, 0, 0.4);
-    }
-    to {
-        box-shadow: 0 0 25px rgba(0, 123, 255, 1), 0 0 25px rgba(255, 165, 0, 0.6);
-    }
+    from { box-shadow: 0 0 10px rgba(85, 0, 255, 0.6); }
+    to { box-shadow: 0 0 25px rgba(85, 0, 255, 1); }
 }
 
 .table-layout td {
     padding: 10px;
     font-size: 16px;
-    color: white; /* White text */
-    font-family: 'Consolas', monospace; /* Font from store.css */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+    color: white;
+    font-family: 'Consolas', monospace;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 .left-cell {
@@ -150,36 +143,74 @@ body, html {
     font-weight: bold;
 }
 
+/* 卡片 */
+.card-container {
+    position: relative;
+}
+
 .card-image {
-    width: 60%;
+    width: 80%;
     border-radius: 10px;
 }
 
-.small-text {
-    font-size: 12px;
+.circle-image {
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: flash-circle 1s alternate infinite;
+}
+
+.hand-image {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes flash-circle {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+}
+
+/* Points部分 */
+.points {
+    margin-top: 10px;
+}
+
+.points-text {
     color: white;
+    font-size: 16px;
 }
 
-/* Glowing effect for icon */
-.icon-glow {
-    width: 16px;
-    height: 16px;
-    animation: glow-icon 2s infinite alternate;
-}
-
-@keyframes glow-icon {
-    from {
-        box-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
-    }
-    to {
-        box-shadow: 0 0 10px rgba(0, 255, 255, 1);
-    }
-}
-
-/* 积分翻页效果 */
-.points-flip {
+.points-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     font-size: 28px;
     font-weight: bold;
     color: white;
-    transition: transform 0.2s ease-in-out; /* 滚动效果 */
+    margin-top: 10px;
+}
+
+.highlight {
+    color: gold;
+    text-shadow: 0 0 10px gold;
+}
+
+.coin-icon {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
+
+/* 图标发光 */
+@keyframes glow-icon {
+    from { box-shadow: 0 0 5px rgba(0, 255, 255, 0.7); }
+    to { box-shadow: 0 0 10px rgba(0, 255, 255, 1); }
 }
