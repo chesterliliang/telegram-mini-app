@@ -1,0 +1,154 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Arial', sans-serif;
+}
+
+.points-container {
+    width: 100vw;
+    height: 100vh;
+    padding: 0px;
+    background-color: transparent; /* Transparent background */
+}
+
+/* 顶部广告栏 */
+.ad-bar {
+    width: 100vw;
+    height: 6vh; /* 6% 的视口高度 */
+    background-color: #222222; /* 深灰色背景 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    overflow: hidden; /* 隐藏溢出文本 */
+    white-space: nowrap;
+}
+
+.pad-text {
+    color: white;
+    font-size: 16px;
+    font-weight: bold;
+    animation: scroll-text 10s linear infinite;
+}
+
+/* 广告文本滚动效果 */
+@keyframes scroll-text {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+/* 顶部行，包含名称和图标 */
+.top-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    height: 40px;
+}
+
+.left-section {
+    text-align: left;
+    padding-left: 5%;
+}
+
+.right-section {
+    text-align: right;
+    padding-right: 5%;
+}
+
+.name-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+}
+
+.icon-image {
+    width: 16px;
+    height: 16px;
+    animation: glow-icon 1.5s infinite alternate; /* 图标发光效果 */
+}
+
+/* 圆角表格 */
+.points-table {
+    width: 90%; /* 水平方向占90% */
+    height: 90%; /* 垂直方向占90% */
+    margin: 0 auto;
+    padding: 10px;
+}
+
+.table-layout {
+    width: 100%;
+    border: 1px solid rgba(0, 123, 255, 0.8); /* 浅蓝色边框 */
+    border-radius: 10px;
+    background-color: black; /* 黑色表格背景 */
+    box-shadow: 0 0 15px rgba(85, 0, 255, 0.8); /* 蓝紫色发光效果 */
+    text-align: center;
+    animation: glow-table 2s infinite alternate; /* 发光动画效果 */
+}
+
+/* 表格发光效果 */
+@keyframes glow-table {
+    from {
+        box-shadow: 0 0 10px rgba(85, 0, 255, 0.6);
+    }
+    to {
+        box-shadow: 0 0 15px rgba(0, 123, 255, 1);
+    }
+}
+
+.table-layout td {
+    padding: 10px;
+    font-size: 16px;
+    color: white; /* 白色文字 */
+    font-family: 'Consolas', monospace; /* 使用 store.css 中的字体 */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* 轻微的边框 */
+}
+
+.left-cell {
+    text-align: left;
+    font-weight: bold;
+    padding-left: 10px;
+}
+
+.right-cell {
+    text-align: right;
+    font-weight: bold;
+    padding-right: 10px;
+}
+
+.center-cell {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.card-image {
+    width: 60%;
+    border-radius: 10px;
+}
+
+/* 图标发光效果 */
+.icon-glow {
+    width: 16px;
+    height: 16px;
+    animation: glow-icon 2s infinite alternate;
+}
+
+@keyframes glow-icon {
+    from {
+        box-shadow: 0 0 5px rgba(0, 255, 255, 0.7);
+    }
+    to {
+        box-shadow: 0 0 10px rgba(0, 255, 255, 1);
+    }
+}
