@@ -60,6 +60,11 @@ const Points = () => {
     return () => clearInterval(resetClicks);
   }, []);
 
+  // 按钮点击事件
+  const handleButtonClick = () => {
+    alert('Become DeSIM distributor +10 Millions');
+  };
+
   return (
     <div className="points-container">
       {/* 广告栏 */}
@@ -81,7 +86,7 @@ const Points = () => {
       </div>
 
       {/* Card with overlay layers */}
-      <div className="points-table" onClick={handleClick}>
+      <div className="points-table">
         <table className="table-layout">
           <tbody>
             <tr>
@@ -90,7 +95,7 @@ const Points = () => {
             </tr>
             <tr>
               <td colSpan={2} className="center-cell">
-                <div className="card-container">
+                <div className="card-container" onClick={handleClick}>
                   <img src={cardH} alt="Card" className="card-image" />
                   <img src={circleLine} alt="Circle Line" className="circle-image" />
                   <img src={hand} alt="Hand Icon" className="hand-image" />
@@ -106,6 +111,17 @@ const Points = () => {
             </tr>
           </tbody>
         </table>
+         {/* 新增的按钮，宽度与表格相同，位置在表格下方 5% 页面高度的距离 */}
+      <button className="distributor-button" onClick={handleButtonClick}>
+        Be distributor +10 Millions
+      </button>
+      
+      <div className="tail-rec">
+          <div className="dad-text">
+            <span>To become a distributor of DeSIM means you can get 100 DeSIM nano-sim cards for free! </span><br /> 
+            <span>That could let you invite your friends to use eSIM serive and become a distributor so that you could get another 10 Millions!!</span>
+          </div>
+      </div>
       </div>
     </div>
   );
