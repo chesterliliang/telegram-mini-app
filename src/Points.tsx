@@ -1,7 +1,7 @@
 //import React from 'react';
 
-const Token = () => {
+const Points = () => {
     return <div>Hello World from Token!</div>;
 };
 
-export default Token;
+export default Points;

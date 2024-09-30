@@ -12,187 +12,246 @@ html, body {
 }
 
 .esim-container {
-    width: 100vw; /* 使用视口宽度 */
-    height: calc(100vh - 50px); /* 占满整个视口高度，留出TAB高度 */
-    padding: 0; /* 清除内边距 */
-    margin: 0; /* 清除外边距 */
-    background-color: #313030; /* 深灰背景 */
-    overflow-y: auto; /* 允许上下滚动 */
-    scrollbar-width: none; /* 隐藏滚动条（Firefox） */
-    -ms-overflow-style: none;  /* 隐藏滚动条（IE和Edge） */
-    text-align: center; /* 使整个容器内的内容居中 */
+    width: 100vw;
+    height: calc(100vh - 50px);
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .esim-container::-webkit-scrollbar {
-    display: none; /* 隐藏滚动条（Chrome和Safari） */
+    display: none;
 }
 
+/* Header部分: Logo、DeSIM.io和Hello, Name */
+.header-container {
+    display: flex;
+    justify-content: space-between; /* 左右分布 */
+    align-items: center; /* 垂直居中对齐 */
+    padding: 10px;
+    height: 60px; /* 保持固定高度 */
+}
+
+/* Left section for logo and DeSIM.io */
+.left-section {
+    display: flex;
+    align-items: center; /* 确保垂直居中对齐 */
+    width: 50%; /* 占据50%宽度 */
+}
+
+/* LOGO的样式 */
 .logo {
-    margin-bottom: 10px; /* logo 和标题之间的间距 */
-    width: 96px; /* logo 宽度 */
-    height: 96px; /* logo 高度 */
+    width: 32px;
+    height: 32px;
+    margin:5%;
+    margin-right: 3%; /* 与DeSIM.io文字之间留出间距 */
+}
+
+/* DeSIM.io的文本样式 */
+.header-text {
+    color: white;
+    font-family: 'Microsoft YaHei', sans-serif;
+    font-size: 16px;
+}
+
+/* Right section for Hello, Name */
+.right-section {
+    display: flex;
+    align-items: center; /* 确保垂直居中对齐 */
+    justify-content: flex-end; /* 向右对齐 */
+    width: 50%; /* 右侧宽度占50% */
+}
+
+.hello-text {
+    color: white;
+    font-family: 'Microsoft YaHei', sans-serif;
+    font-size: 16px;
+    margin-right: 8%;
+}
+
+/* head-rec 矩形背景 */
+.head-rec {
+    width: 98%;
+    height: 18%; /* 高度为15% */
+    background-color: rgba(204, 204, 204, 0.1); /* 灰色背景，透明度为85% */
+    border-radius: 15px; /* 圆角 */
+    margin: 10px auto; /* 水平居中 */
+    position: relative;
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: space-between; /* 左右分布对齐 */
+    padding: 0 20px; /* 添加左右内边距 */
+    z-index: 0; /* 确保矩形显示在背后 */
+}
+
+/* Data Plans部分标题 */
+.title {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* 居中对齐 */
+    margin-top: 20px;
+    color: white;
+    font-size: 24px;
+    font-weight: lighter;
 }
 
 
-.subtitle {
-    text-align: center; /* 字体居中 */
-    color: white; /* 白色文字 */
-    font-family: 'Microsoft YaHei', sans-serif; /* 使用微软雅黑 */
-    font-size: 22px; /* 字体略小于 Available eSIMs */
-    margin: 0; /* 移除额外的下边距 */
+.global-icon {
+    margin-right: 10px;
 }
 
+.data-plans-text {
+    margin-left: 5px;
+}
 
-
+/* 表格部分 */
 .esim-table-container {
-    margin: 20px auto; /* 表格间隔和居中对齐 */
-    width: 90%; /* 表格宽度为页面的90% */
+    margin: 20px auto;
+    width: 90%;
 }
 
 .esim-table {
     width: 100%;
     border-collapse: collapse;
-    background-color: rgba(56, 78, 152, 0.9); /* 透明度为90% */
-    position: relative; /* 相对定位以支持绝对定位的子元素 */
-    border-radius: 15px; /* 圆角设置 */
-    overflow: hidden; /* 隐藏溢出部分 */
+    background-color: rgba(56, 78, 152, 0.9);
+    position: relative;
+    border-radius: 15px;
+    overflow: hidden;
 }
 
 .esim-table td {
-    color: white; /* 白色文字 */
-    padding: 8px;
-    border-top: 1px solid rgba(255, 255, 255, 0.5); /* 顶部线 */
-    font-family: 'Consolas', monospace; /* 使用 Consolas 字体 */
-    font-size: 14px; /* 缩小字体 */
+    color: white;
+    padding: 8px 20px;
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
+    font-family: 'Consolas', monospace;
+    font-size: 14px;
 }
 
 .image-cell {
-    position: relative; /* 为了覆盖表格 */
-    text-align: right; /* 图片右对齐 */
+    position: relative;
+    text-align: right;
 }
 
 .esim-image {
-    width: 101px; /* 图片宽度 */
-    height: 64px; /* 图片高度 */
-    position: absolute; /* 绝对定位 */
-    top: 3%; /* 顶部对齐 */
-    right: 5%; /* 右侧留5% */
+    width: 101px;
+    height: 64px;
+    position: absolute;
+    top: 3%;
+    right: 5%;
 }
 
 .icon {
-    width: 16px; /* 图标大小 */
+    width: 16px;
     height: 16px;
-    margin-right: 5px; /* 图标与文字间隔 */
+    margin-right: 5px;
 }
 
 .right-align {
-    text-align: right; /* 右列右对齐 */
-    padding-right: 5%; /* 右列右侧留5% */
+    text-align: right;
+    padding-right: 5%;
 }
 
-/* 隐藏顶端和底部的白线 */
 .esim-table tr:first-child td {
-    border-top: none; /* 隐藏顶部线 */
+    border-top: none;
 }
 
 .esim-table tr:last-child td {
-    border-bottom: none; /* 隐藏底部线 */
+    border-bottom: none;
 }
 
-/* 隐藏竖线 */
 .esim-table td:not(:first-child) {
-    border-left: none; /* 隐藏竖线 */
+    border-left: none;
 }
 
 .buy-button {
-    background-color: #e4a945; /* 透明背景 */
-    border: 0px solid white; /* 白色细线 */
-    color: white; /* 白色文字 */
+    background-color: #e4a945;
+    border: 0px solid white;
+    color: white;
     padding: 5px 10px;
     cursor: pointer;
-    width: 150px; /* 按钮宽度为表格的35% */
-    float: right; /* 右对齐 */
-    margin-top: 10px; /* 上方留间距 */
-    border-radius: 8px; /* 添加圆角，数值可根据需要调整 */
+    width: 150px;
+    float: right;
+    margin-top: 10px;
+    border-radius: 8px;
 }
 
+.link-button {
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+/* 底部Tab容器 */
 .tab-container {
     display: flex;
-    justify-content: space-around; /* 均匀分布 */
-    background-color: #313030; /* 与页面相同的背景色 */
-    padding: 10px 0; /* 上下内边距 */
-    border-top: 1px solid rgba(255, 255, 255, 0.2); /* 细白边框 */
-    position: absolute; /* 绝对定位 */
-    bottom: 0; /* 固定在底部 */
-    width: 100%; /* 占满宽度 */
+    justify-content: space-around;
+    background-color: #313030;
+    padding: 10px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
 }
 
 .tab-container button {
-    color: white; /* 设置字体颜色为白色 */
-    background: none; /* 移除背景 */
-    border: none; /* 移除边框 */
-    cursor: pointer; /* 鼠标指针为手型 */
-    font-size: 16px; /* 字体大小 */
+    color: white;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
 }
 
 .tab-container button:hover {
-    background-color: #e0e0e0; /* 鼠标悬停时背景色 */
+    background-color: #e0e0e0;
 }
 
 .tab-icon-container {
     display: flex;
-    flex-direction: column; /* 纵向排列 */
-    align-items: center; /* 居中对齐 */
+    flex-direction: column;
+    align-items: center;
 }
 
 .tab-icon {
-    width: 20px; /* 图标宽度 */
-    height: 20px; /* 图标高度 */
-    margin-bottom: 5px; /* 图标与文字间隔 */
+    width: 20px;
+    height: 20px;
+    margin-bottom: 5px;
 }
 
-.link-button {
-    color: white; /* 设置文字颜色为白色 */
-    text-decoration: underline; /* 添加下划线 */
-    cursor: pointer; /* 鼠标指针为手型 */
+.ad-content {
+    color: black;
+    font-size: 14px;
+    line-height: 1.5;
+    width: 70%; /* 广告内容宽度 */
 }
 
-
-
-.header-container {
-    display: flex;
-    flex-direction: column; /* 垂直排列 */
-    align-items: center; /* 水平居中 */
-    margin-bottom: 20px; /* 与标题之间的间距 */
+/* 广告标题 */
+.ad-title {
+    font-family: 'Consolas', monospace; /* 和表格内的文字一致 */
+    color: white;
+    font-size: 16px;
+    font-weight: bold; /* 加粗标题 */
+    margin-bottom: 5px;
 }
 
-.logo {
-    margin-right: 10px; /* logo 和标题之间的间距 */
+.ad-text {
+    font-family: 'Consolas', monospace; /* 和表格内的文字一致 */
+    color: white;
+    font-size: 14px;
 }
 
-.title {
-    display: flex;
-    align-items: center;
-    justify-content: center; /* 居中对齐 */
-    margin-top: 20px; /* 与 header 的间距 */
-    color: white; /* 白色文字 */
-    font-size: 24px; /* 缩小字体 */
-    font-weight: lighter; /* 采用更纤细的字体 */
+/* 广告图标 */
+.ad-icon {
+    width: 40px;
+    height: 40px;
+    margin-left: 20px; /* 图标和广告文字之间的间距 */
 }
 
-.global-icon {
-    margin-right: 10px; /* 图标与标题之间的间距 */
-}
-
-.data-plans-text {
-    margin-left: 5px; /* Data Plans 文本与图标之间的间距 */
-}
-
-/* 表格样式 */
-.esim-table {
-    width: 100%; /* 表格宽度为100% */
-}
-
-.esim-table td {
-    vertical-align: top; /* 垂直对齐 */
+.ad-image {
+    width: 72px;
+    height: 72px;
+    margin-left: auto; /* 图片在右侧 */
+    border-radius: 10px; /* 圆角 */
 }
