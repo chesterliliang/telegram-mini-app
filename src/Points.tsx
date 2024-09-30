@@ -113,12 +113,12 @@ const Points = () => {
         </table>
          {/* 新增的按钮，宽度与表格相同，位置在表格下方 5% 页面高度的距离 */}
       <button className="distributor-button" onClick={handleButtonClick}>
-        Be distributor +10 Millions
+        Be DeSIM Partner +100 Millions
       </button>
       
       <div className="tail-rec">
           <div className="dad-text">
-            <span>To become a distributor of DeSIM means you can get 100 DeSIM nano-sim cards for free! </span><br /> 
+            <span>To become a partner of DeSIM means you can get 100 DeSIM nano-sim cards for free! </span><br /> 
             <span>That could let you invite your friends to use eSIM serive and become a distributor so that you could get another 10 Millions!!</span>
           </div>
       </div>

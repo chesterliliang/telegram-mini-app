@@ -37,12 +37,26 @@ body, html {
 }
 
 .ad-text {
-    color: #fff;
     font-size: 16px;
-    background: linear-gradient(45deg, rgb(151, 151, 233), rgb(224, 143, 93));
+    font-weight: bold;
+    background: linear-gradient(90deg, #ff7a18, #af002d, #319197, #ffd200);
+    background-size: 400% 400%; /* 定义渐变的大小 */
     -webkit-background-clip: text;
     color: transparent;
-    animation: scroll-text 10s linear infinite, color-shift 2s linear infinite;
+    animation: gradient-color 6s ease infinite; /* 渐变动画效果 */
+}
+
+/* 渐变颜色的变化 */
+@keyframes gradient-color {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 @keyframes scroll-text {
@@ -161,7 +175,7 @@ body, html {
 }
 
 .card-image {
-    width: 80%;
+    width: 30vh;
     border-radius: 10px;
     animation: glow-icon 3s infinite alternate;
     margin-bottom: 1%;
@@ -233,8 +247,8 @@ body, html {
 /* 新增按钮的样式 */
 .distributor-button {
     width: 90vw;
-    height: 8vh; /* 使用vh单位以便适应不同屏幕 */
-    margin: 2vh auto 4vh; /* 上下间距，使用vh单位 */
+    height: 5vh; /* 使用vh单位以便适应不同屏幕 */
+    margin: 2vh auto 2vh; /* 上下间距，使用vh单位 */
     border: none;
     border-radius: 8px;
     background-color: rgb(208, 131, 54);
@@ -255,23 +269,56 @@ body, html {
     box-shadow: 0 0 8px yellow;
 }
 
+/* tail-rec 区域设置 */
 .tail-rec {
     width: 90vw;
-    height: 20vh; /* 高度调整为vh单位 */
-    background-color: rgba(19, 19, 19);
+    height: 30vh; /* 高度调整为25% */
+    background-color: rgba(19, 19, 19, 0.85); /* 深色透明背景 */
     border-radius: 8px;
     position: relative;
     display: flex;
     align-items: center;
-    justify-content: space-between;
-    z-index: 0;
+    justify-content: center;
+    overflow: hidden; /* 隐藏溢出部分 */
+    perspective: 450px; /* 添加透视效果，类似3D视角 */
 }
 
+/* dad-text 星球大战滚动字幕效果 */
 .dad-text {
-    padding: 2vw;
-    font-family: 'Consolas', monospace;
-    font-size: 16px;
-    background: linear-gradient(270deg, rgb(190, 50, 50), rgb(243, 179, 96));
-    -webkit-background-clip: text;
-    color: transparent;
+    position: absolute;
+    bottom: -100vh; /* 初始位置在视图下方外 */
+    width: 150vw;
+    text-align: center;
+    font-size: 48px;
+    color: rgb(208, 131, 54);
+    font-family: 'Consolas', monospace; /* 字体与表格一致 */
+    transform-origin: center bottom; /* 文字从底部开始缩放和旋转 */
+    animation: star-wars-scroll 20s linear infinite; /* 动画15秒循环 */
+    transform: rotateX(55deg); /* 将文字倾斜以产生3D效果 */
+    line-height: 1.5; /* 适当增加行高，确保每行文字的间距 */
+    font-family: 'SF Distant Galaxy', monospace;
+}
+
+/* 星球大战滚动动画效果 */
+@keyframes star-wars-scroll {
+    0% {
+        bottom: -100%;
+        transform: rotateX(55deg) scale(1) translateZ(0); /* 初始角度和大小 */
+        opacity: 1; /* 初始完全可见 */
+    }
+    98% {
+        bottom: 98%; /* 保持滚动效果，直到接近顶部 */
+        transform: rotateX(55deg) scale(0.75) translateZ(-100px); /* 缩小一点，保持角度 */
+        opacity: 1;
+    }
+    100% {
+        bottom: 99%; /* 到达顶部5%时消失 */
+        transform: rotateX(55deg) scale(0.5) translateZ(-300px); /* 最终缩小，保持角度 */
+        opacity: 0; /* 完全透明 */
+    }
+}
+
+@font-face {
+    font-family: 'SF Distant Galaxy';
+    src: url('./fonts/SFDistant Galaxy.ttf') format('truetype'); /* 或者用 .otf 格式 */
 }
