@@ -271,8 +271,9 @@ body, html {
 
 /* tail-rec 区域设置 */
 .tail-rec {
-    width: 90vw;
-    height: 30vh; /* 高度调整为25% */
+    width: 110vw;
+    height: 40vh; /* 高度调整为25% */
+    margin-left: -10vw;
     background-color: rgba(19, 19, 19, 0.85); /* 深色透明背景 */
     border-radius: 8px;
     position: relative;
@@ -287,14 +288,14 @@ body, html {
 .dad-text {
     position: absolute;
     bottom: -100vh; /* 初始位置在视图下方外 */
-    width: 150vw;
+    width: 190vw;
     text-align: center;
-    font-size: 48px;
+    font-size: 55px;
     color: rgb(208, 131, 54);
     font-family: 'Consolas', monospace; /* 字体与表格一致 */
     transform-origin: center bottom; /* 文字从底部开始缩放和旋转 */
-    animation: star-wars-scroll 20s linear infinite; /* 动画15秒循环 */
-    transform: rotateX(55deg); /* 将文字倾斜以产生3D效果 */
+    animation: star-wars-scroll 30s linear infinite; /* 动画15秒循环 */
+    transform: rotateX(50deg); /* 将文字倾斜以产生3D效果 */
     line-height: 1.5; /* 适当增加行高，确保每行文字的间距 */
     font-family: 'SF Distant Galaxy', monospace;
 }
@@ -303,17 +304,17 @@ body, html {
 @keyframes star-wars-scroll {
     0% {
         bottom: -100%;
-        transform: rotateX(55deg) scale(1) translateZ(0); /* 初始角度和大小 */
+        transform: rotateX(50deg) scale(1) translateZ(0); /* 初始角度和大小 */
         opacity: 1; /* 初始完全可见 */
     }
     98% {
         bottom: 98%; /* 保持滚动效果，直到接近顶部 */
-        transform: rotateX(55deg) scale(0.75) translateZ(-100px); /* 缩小一点，保持角度 */
+        transform: rotateX(50deg) scale(0.75) translateZ(-100px); /* 缩小一点，保持角度 */
         opacity: 1;
     }
     100% {
         bottom: 99%; /* 到达顶部5%时消失 */
-        transform: rotateX(55deg) scale(0.5) translateZ(-300px); /* 最终缩小，保持角度 */
+        transform: rotateX(50deg) scale(0.5) translateZ(-300px); /* 最终缩小，保持角度 */
         opacity: 0; /* 完全透明 */
     }
 }

@@ -118,8 +118,8 @@ const Points = () => {
       
       <div className="tail-rec">
           <div className="dad-text">
-            <span>To become a partner of DeSIM means you can get 100 DeSIM nano-sim cards for free! </span><br /> 
-            <span>That could let you invite your friends to use eSIM serive and become a distributor so that you could get another 10 Millions!!</span>
+            <span>To become a partner of DeSIM means you can get 100 real sim cards for free! It can be used to download any eSIM data plans without any limitation on any phones </span><br /> 
+            <span>It means you invite your friends to use eSIM serive whatever device they used, bring them to telegram and make them partners of DeSIM. If that happens, you will get your reward in USDT and get another 100 Millions points!!</span>
           </div>
       </div>
       </div>
