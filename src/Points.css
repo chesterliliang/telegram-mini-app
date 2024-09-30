@@ -17,27 +17,31 @@ body, html {
     background-color: transparent; /* Transparent background */
 }
 
-/* 顶部广告栏 */
+/* Ad bar at the top */
 .ad-bar {
     width: 100vw;
-    height: 6vh; /* 6% 的视口高度 */
-    background-color: #222222; /* 深灰色背景 */
+    height: 6vh; /* 6% of viewport height */
+    background-color: #222222; /* Dark grey */
     display: flex;
     align-items: center;
     justify-content: center;
     margin-bottom: 20px;
-    overflow: hidden; /* 隐藏溢出文本 */
+    overflow: hidden; /* Hide overflowing text */
     white-space: nowrap;
+    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5); /* Slight glowing effect */
 }
 
 .pad-text {
-    color: white;
+    color: #ffffff;
     font-size: 16px;
     font-weight: bold;
     animation: scroll-text 10s linear infinite;
+    background: linear-gradient(90deg, blue, orange); /* Dynamic gradient */
+    -webkit-background-clip: text;
+    color: transparent; /* Text uses gradient */
 }
 
-/* 广告文本滚动效果 */
+/* Scrolling effect for ad text */
 @keyframes scroll-text {
     from {
         transform: translateX(100%);
@@ -47,7 +51,7 @@ body, html {
     }
 }
 
-/* 顶部行，包含名称和图标 */
+/* Top row with namename and icon */
 .top-row {
     display: flex;
     justify-content: space-between;
@@ -67,51 +71,65 @@ body, html {
 }
 
 .name-text {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: bold;
     color: white;
+    margin-left: 5px;
+}
+
+.username-text {
+    font-size: 14px;
+    font-weight: bold;
+    color: white;
+    margin-right: 10px;
+}
+
+.logo-image {
+    width: 16px;
+    height: 16px;
+    animation: glow-icon 1.5s infinite alternate;
 }
 
 .icon-image {
     width: 16px;
     height: 16px;
-    animation: glow-icon 1.5s infinite alternate; /* 图标发光效果 */
+    animation: glow-icon 1.5s infinite alternate; /* Icon glow effect */
 }
 
-/* 圆角表格 */
+/* Rounded table */
 .points-table {
-    width: 90%; /* 水平方向占90% */
-    height: 90%; /* 垂直方向占90% */
+    width: 90%; /* Horizontal size: 90% */
+    height: 80%; /* Vertical size: 80% */
     margin: 0 auto;
     padding: 10px;
 }
 
 .table-layout {
     width: 100%;
-    border: 1px solid rgba(0, 123, 255, 0.8); /* 浅蓝色边框 */
+    border: 1px solid rgba(0, 123, 255, 0.8); /* Light blue border */
     border-radius: 10px;
-    background-color: black; /* 黑色表格背景 */
-    box-shadow: 0 0 15px rgba(85, 0, 255, 0.8); /* 蓝紫色发光效果 */
+    background-color: black; /* Black table background */
+    box-shadow: 0 0 25px rgba(85, 0, 255, 0.8), 0 0 25px rgba(255, 165, 0, 0.6); /* Blue-orange glowing effect */
     text-align: center;
-    animation: glow-table 2s infinite alternate; /* 发光动画效果 */
+    animation: glow-table 1.5s infinite alternate; /* Flashing glow */
 }
 
-/* 表格发光效果 */
+/* Table glow effect */
 @keyframes glow-table {
     from {
-        box-shadow: 0 0 10px rgba(85, 0, 255, 0.6);
+        box-shadow: 0 0 15px rgba(85, 0, 255, 0.6), 0 0 15px rgba(255, 165, 0, 0.4);
     }
     to {
-        box-shadow: 0 0 15px rgba(0, 123, 255, 1);
+        box-shadow: 0 0 25px rgba(0, 123, 255, 1), 0 0 25px rgba(255, 165, 0, 0.6);
     }
 }
 
 .table-layout td {
     padding: 10px;
     font-size: 16px;
-    color: white; /* 白色文字 */
-    font-family: 'Consolas', monospace; /* 使用 store.css 中的字体 */
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* 轻微的边框 */
+    color: white; /* White text */
+    font-family: 'Consolas', monospace; /* Font from store.css */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
 }
 
 .left-cell {
@@ -137,7 +155,12 @@ body, html {
     border-radius: 10px;
 }
 
-/* 图标发光效果 */
+.small-text {
+    font-size: 12px;
+    color: white;
+}
+
+/* Glowing effect for icon */
 .icon-glow {
     width: 16px;
     height: 16px;
@@ -151,4 +174,12 @@ body, html {
     to {
         box-shadow: 0 0 10px rgba(0, 255, 255, 1);
     }
+}
+
+/* 积分翻页效果 */
+.points-flip {
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    transition: transform 0.2s ease-in-out; /* 滚动效果 */
 }
