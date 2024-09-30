@@ -67,7 +67,7 @@ const Store: React.FC<StoreProps> = ({ onBuyNow, setActiveTab }) => {
       <div className="head-rec">
         <div>
           <div className="ad-title">Why DeSIM</div>
-          <div className="ad-text">
+          <div className="sad-text">
             We offer stable and fast global data plans and token rewards.
           </div>
         </div>

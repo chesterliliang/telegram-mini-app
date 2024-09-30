@@ -14,7 +14,6 @@ const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
 const Points = () => {
   const [points, setPoints] = useState<number>(9999);
   const [clicks, setClicks] = useState<number>(0);
-  const [isClicked, setIsClicked] = useState<boolean>(false);
   const [username, setUsername] = useState<string>('Username');
   const [highlightPoints, setHighlightPoints] = useState<boolean>(false);
 
@@ -45,15 +44,10 @@ const Points = () => {
     if (clicks < 4) {
       setPoints((prevPoints) => prevPoints + Math.floor(Math.random() * 21) + 30); // 增加 30-50
       setClicks((prevClicks) => prevClicks + 1); // 增加点击次数
-      setIsClicked(true); // 设置为点击状态
       setHighlightPoints(true); // 设置分数金色高亮
       setTimeout(() => {
         setHighlightPoints(false); // 500ms 后恢复原色
       }, 500);
-
-      setTimeout(() => {
-        setIsClicked(false); // 恢复点击效果
-      }, 1000); // 1 秒后恢复
     }
   };
 
