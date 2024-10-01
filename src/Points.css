@@ -15,7 +15,7 @@ body, html {
     height: calc(100vh - 50px);
     padding: 0;
     margin: 0;
-    background-color: transparent;
+    background-color: #000000;
     overflow-y: auto;
     scrollbar-width: none;
     -ms-overflow-style: none;
@@ -175,7 +175,7 @@ body, html {
 }
 
 .card-image {
-    width: 30vh;
+    width: 35vw;
     border-radius: 10px;
     animation: glow-icon 3s infinite alternate;
     margin-bottom: 1%;
@@ -246,23 +246,13 @@ body, html {
 
 /* 新增按钮的样式 */
 .distributor-button {
-    width: 90vw;
-    height: 5vh; /* 使用vh单位以便适应不同屏幕 */
+    width: 20vw;
+    height: 10vh; /* 使用vh单位以便适应不同屏幕 */
     margin: 2vh auto 2vh; /* 上下间距，使用vh单位 */
-    border: none;
-    border-radius: 8px;
-    background-color: rgb(208, 131, 54);
-    color: white;
-    font-family: 'Consolas', monospace;
-    font-size: 16px;
-    cursor: pointer;
-    box-shadow: 0 0 1px rgb(255, 255, 255);
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    font-weight: bold;
+    position: absolute;
+    top: 80%;
+    left: 10%;
+    transform: translate(-50%, -50%);
 }
 
 .distributor-button:hover {
@@ -271,10 +261,10 @@ body, html {
 
 /* tail-rec 区域设置 */
 .tail-rec {
-    width: 110vw;
+    width: 100vw;
     height: 40vh; /* 高度调整为25% */
-    margin-left: -10vw;
-    background-color: rgba(19, 19, 19, 0.85); /* 深色透明背景 */
+    margin-left: -8vw;
+    background-color: rgba(0, 0, 0, 1); /* 深色透明背景 */
     border-radius: 8px;
     position: relative;
     display: flex;
@@ -290,11 +280,11 @@ body, html {
     bottom: -100vh; /* 初始位置在视图下方外 */
     width: 190vw;
     text-align: center;
-    font-size: 55px;
+    font-size: 35px;
     color: rgb(208, 131, 54);
     font-family: 'Consolas', monospace; /* 字体与表格一致 */
     transform-origin: center bottom; /* 文字从底部开始缩放和旋转 */
-    animation: star-wars-scroll 30s linear infinite; /* 动画15秒循环 */
+    animation: star-wars-scroll 20s linear infinite; /* 动画15秒循环 */
     transform: rotateX(50deg); /* 将文字倾斜以产生3D效果 */
     line-height: 1.5; /* 适当增加行高，确保每行文字的间距 */
     font-family: 'SF Distant Galaxy', monospace;

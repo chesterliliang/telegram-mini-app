@@ -99,6 +99,9 @@ const Points = () => {
                   <img src={cardH} alt="Card" className="card-image" />
                   <img src={circleLine} alt="Circle Line" className="circle-image" />
                   <img src={hand} alt="Hand Icon" className="hand-image" />
+                  <button className="distributor-button" onClick={handleButtonClick}>
+                    De-Partner +100 Millions
+                  </button> 
                 </div>
                 <div className="points">
                   <div className="points-text">Points</div>
@@ -112,9 +115,7 @@ const Points = () => {
           </tbody>
         </table>
          {/* 新增的按钮，宽度与表格相同，位置在表格下方 5% 页面高度的距离 */}
-      <button className="distributor-button" onClick={handleButtonClick}>
-        Be DeSIM Partner +100 Millions
-      </button>
+       
       
       <div className="tail-rec">
           <div className="dad-text">
@@ -128,3 +129,5 @@ const Points = () => {
 };
 
 export default Points;
+
+
