@@ -1,124 +1,104 @@
-// //import React from 'react';
-// import { useEffect,useState  } from 'react';
-// import { Html5QrcodeScanner } from "html5-qrcode";
-
-// const eSIM = () => {
-
-//     const [qrCodeMessage, setQrCodeMessage] = useState<string | null>(null);
-
-//     function getLocalIP(callback: (ip: string) => void) {
-//         const rtcPeerConnection = new RTCPeerConnection({ iceServers: [] });
-//         const ipRegex = /([0-9]{1,3}\.){3}[0-9]{1,3}/;
-//         let localIP: string | null = null;
-    
-//         rtcPeerConnection.createDataChannel('');
-    
-//         rtcPeerConnection.createOffer()
-//             .then((offer) => rtcPeerConnection.setLocalDescription(offer))
-//             .catch((err) => console.error('Error in creating offer:', err));
-    
-//         rtcPeerConnection.onicecandidate = (event) => {
-//             if (!event || !event.candidate || !event.candidate.candidate) return;
-    
-//             const candidate = event.candidate.candidate;
-//             const ipMatch = ipRegex.exec(candidate);
-//             if (ipMatch) {
-//                 localIP = ipMatch[0];
-//                 callback(localIP);
-//                 rtcPeerConnection.close();
-//             }
-//         };
-//     }
-
-//     async function getPublicIP() {
-//         try {
-//             const response = await fetch('https://api.ipify.org?format=json');
-//             const data = await response.json();
-//             console.log('Your Public IP:', data.ip);
-//         } catch (error) {
-//             console.error('Error fetching public IP:', error);
-//         }
-//     }
-    
-//     useEffect(() => {
-//         const scanner = new Html5QrcodeScanner(
-//           "qr-reader", 
-//           { fps: 10, qrbox: 250 },
-//           false
-//         );
-    
-//         scanner.render(
-//           (decodedText, decodedResult) => {
-//             // 当扫描到二维码时，执行回调
-//             console.log(`Decoded Text: ${decodedText}`);
-//             setQrCodeMessage(decodedText);
-//             scanner.clear(); // 清除扫描器
-//           },
-//           (errorMessage) => {
-//             // 当没有识别到二维码时的回调
-//             console.log(`Error: ${errorMessage}`);
-//           }
-//         );
-    
-//         return () => {
-//           // 组件卸载时清除资源
-//           scanner.clear();
-//         };
-//       }, []);
-
-//     return (
-//         <div>
-//             Hello World from eSIMs!
-//             <div id="qr-reader" style={{ width: '100%' }}></div>
-//             {qrCodeMessage && <p>Scanned QR Code: {qrCodeMessage}</p>}
-//         </div>
-//     );
-// };
-
-// export default eSIM;
-
-import  { useEffect } from 'react';
-import { Html5QrcodeScanner } from 'html5-qrcode';
-
-// interface QrCodeScannerProps {
-//   onScanSuccess: (decodedText: string) => void; // 成功扫描二维码后的回调
-// }
+import  { useEffect, useRef, useState } from 'react';
+import { Html5Qrcode } from 'html5-qrcode';
+import './eSIM.css'; // 引入CSS
 
 const eSIM = () => {
-  const qrcodeRegionId = "qr-reader";
+  const scannerRef = useRef<any>(null);
+  const [cameraError, setCameraError] = useState<string | null>(null);
+  const [isScannerReady, setIsScannerReady] = useState<boolean>(false);
+  const [decodedText, setDecodedText] = useState<string | null>(null); // 保存扫码结果
+  const scannerId = 'qr-code-scanner';
 
   useEffect(() => {
-    const config = {
-      fps: 10, // 每秒扫描帧数
-      qrbox: { width: 250, height: 250 }, // 设置扫描框的大小
-    };
+    if (isScannerReady) {
+      const startQrScanner = () => {
+        try {
+          scannerRef.current = new Html5Qrcode(scannerId);
+          const config = { fps: 10, qrbox: { width: 250, height: 250 } };
 
-    const qrCodeSuccessCallback = (decodedText: string) => {
-      console.log(`QR Code detected: ${decodedText}`);
-      //onScanSuccess(decodedText); // 执行回调，处理扫描到的文本
-    };
+          // 请求摄像头列表
+          Html5Qrcode.getCameras()
+            .then((devices) => {
+              if (devices && devices.length) {
+                // 过滤出后置摄像头
+                const rearCameras = devices.filter(
+                  (device) =>
+                    device.label.toLowerCase().includes('back') ||
+                    device.label.toLowerCase().includes('rear')
+                );
 
-    const qrCodeErrorCallback = (errorMessage: string) => {
-      // 可以忽略不处理错误，除非你想显示错误
-      console.warn(`QR Code scan error: ${errorMessage}`);
-    };
+                // 过滤出前置摄像头
+                const frontCameras = devices.filter(
+                  (device) =>
+                    device.label.toLowerCase().includes('front') ||
+                    device.label.toLowerCase().includes('face')
+                );
 
-    // 初始化二维码扫描器
-    const html5QrCodeScanner = new Html5QrcodeScanner(qrcodeRegionId, config, false);
-    html5QrCodeScanner.render(qrCodeSuccessCallback, qrCodeErrorCallback);
+                let cameraId: string;
+                if (rearCameras.length > 0) {
+                  // 使用后置摄像头
+                  cameraId = rearCameras[0].id;
+                } else if (frontCameras.length > 0) {
+                  // 如果没有后置摄像头，使用前置
+                  cameraId = frontCameras[0].id;
+                } else {
+                  // 默认使用第一个摄像头
+                  cameraId = devices[0].id;
+                }
 
-    // 清理函数，在组件卸载时销毁扫描器
+                // 启动二维码扫描
+                scannerRef.current
+                  .start(
+                    cameraId,
+                    config,
+                    (decodedText: string) => {
+                      console.log('Decoded text:', decodedText);
+                      setDecodedText(decodedText); // 显示扫描结果
+                    }
+                  )
+                  .catch((err: any) => {
+                    console.error('Error starting scanner:', err);
+                    setCameraError('Failed to start the scanner.');
+                  });
+              } else {
+                setCameraError('No cameras found.');
+              }
+            })
+            .catch((err) => {
+              console.error('Error in accessing cameras:', err);
+              setCameraError('Failed to access the camera.');
+            });
+        } catch (error) {
+          console.error('Error initializing scanner:', error);
+          setCameraError('Scanner initialization failed.');
+        }
+      };
+
+      startQrScanner();
+    }
+
     return () => {
-      html5QrCodeScanner.clear();
+      if (scannerRef.current) {
+        scannerRef.current.stop().catch((error: any) => {
+          console.log('Error stopping scanner:', error);
+        });
+      }
     };
+  }, [isScannerReady]);
+
+  useEffect(() => {
+    setIsScannerReady(true); // 等到页面加载完成后才设置 ready 状态
   }, []);
 
   return (
-    <div>
-      <div id={qrcodeRegionId} style={{ width: "500px" }} />
+    <div className="scanner-container">
+      <div id={scannerId} className="scanner" />
+      <div>
+      {decodedText && <p className="decoded-text">Scanned Result: {decodedText}</p>}
+      {cameraError && <p>{cameraError}</p>}
+      </div>
     </div>
   );
 };
 
 export default eSIM;
-//<div id={qrcodeRegionId} style={{ width: "500px" }} />

@@ -1,12 +1,29 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100vw;
+    width: 100vh;
+    font-family: 'Consolas', monospace;
+}
+
 .profile-container {
-    text-align: center; /* h2元素居中 */
-    color: white; /* 字体颜色为白色 */
-    font-family: 'Consolas', monospace; /* 字体设置 */
+    width: 100vw;
+    height: calc(100vh - 50px);
+    padding: 0;
+    margin: 0;
+    background-color: #000000;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
 }
 
 .profile-table {
-    width: 90%; /* 表格宽度 */
-    margin: 20px auto; /* 居中并增加间距 */
+    width: 90vw; /* 表格宽度 */
+    margin: 5px auto; /* 居中并增加间距 */
     background-color: #565656; /* 浅灰底色 */
     border-collapse: collapse; /* 合并边框 */
 }

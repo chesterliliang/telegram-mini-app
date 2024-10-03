@@ -15,9 +15,11 @@ import iconToken_Fill from './assets/money-dollar-circle-fill.png';
 import iconProfile_Line from './assets/profile-line.png';
 import iconProfile_Fill from './assets/profile-fill.png';
 
+
 const App = () => {
   const [activeTab, setActiveTab] = useState('Points');
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null); // 修改状态类型
+
 
   const renderContent = () => {
     switch (activeTab) {
@@ -26,7 +28,7 @@ const App = () => {
       case 'Store':
         return <Store onBuyNow={setSelectedPlan} setActiveTab={setActiveTab} />; // 传递 setActiveTab
       case 'eSIM':
-        return <UeSIM />;
+        return <UeSIM />; // 传递 onScanSuccess 属性
       case 'Profile':
         return <Profile />;
       case 'Payment':

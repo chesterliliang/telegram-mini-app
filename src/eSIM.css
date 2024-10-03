@@ -1,0 +1,44 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100vw;
+    width: 100vh;
+    font-family: 'Consolas', monospace;
+}
+
+/* 扫描窗口居中 */
+.scanner-container {
+    width: 100vw;
+    height: calc(100vh - 50px);
+    padding: 0;
+    margin: 0;
+    background-color: transparent;
+    overflow-y: auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: center; /* 水平居中对齐 */
+    flex-direction: column; /* 子元素垂直排列 */
+}
+  
+.scanner {
+    margin: 10px auto; /* 水平居中 */
+    width: 60vw; /* 扫描框的宽度 */
+    height: 60vw; /* 扫描框的高度，保持宽高比 */
+    border: 3px solid #515151; /* 边框颜色 */
+    display: flex;
+}
+  
+/* 显示扫码结果 */
+.decoded-text {
+    margin-top: 20px;
+    font-size: 18px;
+    color: white;
+    font-family: 'Arial', sans-serif;
+    text-align: center; /* 文字居中 */
+}
