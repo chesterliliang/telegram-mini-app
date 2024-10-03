@@ -200,6 +200,39 @@ body, html {
     transform: translate(-50%, -50%);
 }
 
+.ship1-image {
+    width: 100px;
+    height: 100px;
+    position: absolute;
+    transform: translate(-50%, -50%);
+    z-index: 100; /* 确保它在页面的上层 */
+    cursor: pointer;
+    
+}
+
+@keyframes float {
+    0% {
+        top: 5%;
+        left: 5%;
+    }
+    25% {
+        top: 15%;
+        left: 85%; /* 保持在页面的边缘，不会进入中心 */
+    }
+    50% {
+        top: 75%;
+        left: 75%;
+    }
+    75% {
+        top: 85%;
+        left: 15%;
+    }
+    100% {
+        top: 20%;
+        left: 10%;
+    }
+}
+
 @keyframes flash-circle {
     0% { opacity: 1; }
     50% { opacity: 0; }
@@ -278,16 +311,15 @@ body, html {
 .dad-text {
     position: absolute;
     bottom: -100vh; /* 初始位置在视图下方外 */
-    width: 190vw;
+    width: 140vw;
     text-align: center;
     font-size: 35px;
-    color: rgb(208, 131, 54);
-    font-family: 'Consolas', monospace; /* 字体与表格一致 */
+    font-family: 'SFDistantGalaxy';
+    color: rgb(217, 174, 55);
     transform-origin: center bottom; /* 文字从底部开始缩放和旋转 */
     animation: star-wars-scroll 20s linear infinite; /* 动画15秒循环 */
     transform: rotateX(50deg); /* 将文字倾斜以产生3D效果 */
     line-height: 1.5; /* 适当增加行高，确保每行文字的间距 */
-    font-family: 'SF Distant Galaxy', monospace;
 }
 
 /* 星球大战滚动动画效果 */
@@ -310,6 +342,8 @@ body, html {
 }
 
 @font-face {
-    font-family: 'SF Distant Galaxy';
-    src: url('./fonts/SFDistant Galaxy.ttf') format('truetype'); /* 或者用 .otf 格式 */
+    font-family: 'SFDistantGalaxy';
+    src:url('./assets/starwarfont.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
 }

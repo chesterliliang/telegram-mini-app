@@ -1,11 +1,13 @@
 import './Points.css';
 import { useEffect, useState } from 'react';
 import cardH from './assets/cardH.png';
+import ship1 from './assets/ship1.png'
 import logo from './assets/logo.png';
 import hand from './assets/hand.svg';
 import coin from './assets/coinsy64.svg';
 import circleLine from './assets/circle-line.svg';
 import iconsetting from './assets/settings-line.svg';
+import starWarsTheme from './assets/starwarmusic.mp3';
 import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types";
 
 const telegramWindow = window as unknown as Window & { Telegram: Telegram };
@@ -16,6 +18,29 @@ const Points = () => {
   const [clicks, setClicks] = useState<number>(0);
   const [username, setUsername] = useState<string>('Username');
   const [highlightPoints, setHighlightPoints] = useState<boolean>(false);
+
+  const [shipPosition, setShipPosition] = useState({ top: '10%', left: '10%' });
+
+  // 生成随机位置，但确保不在页面的中心区域
+  const getRandomPosition = () => {
+    const top = Math.random() * 70 + 5 + '%'; // 控制top值在5%-75%之间
+    const left = Math.random() * 70 + 5 + '%'; // 控制left值在5%-75%之间
+    return { top, left };
+  };
+
+    // 每隔几秒钟更新位置，模拟随机漂浮效果
+    useEffect(() => {
+      const interval = setInterval(() => {
+        setShipPosition(getRandomPosition());
+      }, 3000); // 每3秒更新一次位置
+  
+      return () => clearInterval(interval); // 清除定时器
+    }, []);
+
+    // 点击 ship1 时触发的事件
+    const handleShipClick = () => {
+      alert("You clicked the ship!");
+    };
 
   // 获取 Telegram 用户名
   useEffect(() => {
@@ -61,12 +86,31 @@ const Points = () => {
   }, []);
 
   // 按钮点击事件
-  const handleButtonClick = () => {
-    alert('Become DeSIM distributor +10 Millions');
-  };
+  // const handleButtonClick = () => {
+  //   alert('Become DeSIM distributor +10 Millions');
+  // };
+
+  // 页面加载后播放音乐
+  useEffect(() => {
+    const audio = new Audio(starWarsTheme); // 创建音频对象
+    audio.play(); // 播放音频
+    audio.loop = false; // 设置循环播放
+  }, []);
 
   return (
     <div className="points-container">
+      <img
+        src={ship1}
+        alt="Ship"
+        className="ship1-image"
+        style={{
+          position: 'absolute',
+          top: shipPosition.top,
+          left: shipPosition.left,
+          transition: 'top 4s ease, left 6s ease' // 平滑过渡
+        }}
+        onClick={handleShipClick}
+      />
       {/* 广告栏 */}
       <div className="ad-bar">
         <span className="ad-text">Special Offer! Earn rewards with DeSIM.io</span>
@@ -99,9 +143,6 @@ const Points = () => {
                   <img src={cardH} alt="Card" className="card-image" />
                   <img src={circleLine} alt="Circle Line" className="circle-image" />
                   <img src={hand} alt="Hand Icon" className="hand-image" />
-                  <button className="distributor-button" onClick={handleButtonClick}>
-                    De-Partner +100 Millions
-                  </button> 
                 </div>
                 <div className="points">
                   <div className="points-text">Points</div>
