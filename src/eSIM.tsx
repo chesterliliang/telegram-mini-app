@@ -1,205 +1,97 @@
-import { useEffect, useRef, useState } from 'react';
-import { Html5Qrcode } from 'html5-qrcode';
-import './eSIM.css'; // 引入CSS
+import { useEffect, useState } from 'react';
+import './eSIM.css';
+import QRCode from './QRCode'; // 引入 QRCode 组件
+import "./telegram-web-apps";
+import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types";
+
+const telegramWindow = window as unknown as Window & { Telegram: Telegram };
+export const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
 
 const eSIM = () => {
-  const scannerRef = useRef<any>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [cameraError, setCameraError] = useState<string | null>(null);
-  const [decodedText, setDecodedText] = useState<string | null>(null);
-  const [isCameraOn, setIsCameraOn] = useState<boolean>(false);
-  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
-  const [lastCameraFrameUrl, setLastCameraFrameUrl] = useState<string | null>(null);
-  const scannerId = 'qr-code-scanner';
+    const [userId, setUserId] = useState<string | null>(null); // 设置为 string | null
+    const [userName, setUserName] = useState<string | null>(null); // 设置为 string | null
+    const [isQRCodeOpen, setIsQRCodeOpen] = useState<boolean>(false); // 控制 QRCode 弹窗的状态
+    const [qrCodeResult, setQrCodeResult] = useState<string | null>(null); // 用于存储二维码扫描结果
 
-  // 启动摄像头扫码
-  const handleStartScan = () => {
-    console.log("handleStartScan");
-
-    if (isCameraOn) {
-      console.log("Camera is already on.");
-      return; // 防止重复启动
-    }
-
-    // 重新初始化 Html5Qrcode 实例
-    if (!scannerRef.current) {
-      scannerRef.current = new Html5Qrcode(scannerId); // 重新初始化实例
-    }
-
-    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
-
-    Html5Qrcode.getCameras()
-      .then((devices) => {
-        if (devices && devices.length) {
-          const rearCameras = devices.filter(
-            (device) =>
-              device.label.toLowerCase().includes('back') ||
-              device.label.toLowerCase().includes('rear')
-          );
-
-          const frontCameras = devices.filter(
-            (device) =>
-              device.label.toLowerCase().includes('front') ||
-              device.label.toLowerCase().includes('face')
-          );
-
-          let cameraId: string;
-          if (rearCameras.length > 0) {
-            cameraId = rearCameras[0].id;
-          } else if (frontCameras.length > 0) {
-            cameraId = frontCameras[0].id;
-          } else {
-            cameraId = devices[0].id;
-          }
-
-          scannerRef.current
-            .start(
-              cameraId,
-              config,
-              (decodedText: string) => {
-                console.log('Decoded text:', decodedText);
-                setDecodedText(decodedText);
-
-                // 捕获最后一帧图像
-                const videoElement = document.querySelector<HTMLVideoElement>(`#${scannerId} video`);
-                if (videoElement) {
-                  const canvas = document.createElement('canvas');
-                  canvas.width = videoElement.videoWidth;
-                  canvas.height = videoElement.videoHeight;
-                  const ctx = canvas.getContext('2d');
-                  if (ctx) {
-                    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
-                    const frameUrl = canvas.toDataURL('image/png');
-                    setLastCameraFrameUrl(frameUrl); // 将最后一帧保存
-                  }
-                }
-
-                handleStopScan(); // 稍微延迟后停止扫描
-                
-              }
-            )
-            .then(() => {
-              setIsCameraOn(true);
-            })
-            .catch((err: any) => {
-              console.error('Error starting scanner:', err);
-              setCameraError('Failed to start the scanner.');
-            });
-        } else {
-          setCameraError('No cameras found.');
-        }
-      })
-      .catch((err) => {
-        console.error('Error in accessing cameras:', err);
-        setCameraError('Failed to access the camera.');
-      });
-  };
-
-  // 停止扫码并销毁实例
-  const handleStopScan = () => {
-    console.log("handleStopScan");
-    if (scannerRef.current) {
-      scannerRef.current
-        .stop()
-        .then(() => {
-          scannerRef.current.clear(); // 清理扫描器实例的内容
-          scannerRef.current = null; // 销毁实例
-          setIsCameraOn(false); // 更新状态
-
-        })
-        .catch((error: any) => {
-          console.error('Error stopping scanner:', error);
-        });
-    }
-  };
-
-  // 点击上传二维码图片进行识别
-  const handleImageScan = () => {
-    if (fileInputRef.current) {
-      fileInputRef.current.click(); // 触发文件选择
-    }
-  };
-
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
-        setUploadedImageUrl(imageUrl); // 将上传的图片显示在框内
-        setLastCameraFrameUrl(null); // 上传图片后移除最后一帧图像
-      };
-
-      reader.readAsDataURL(file); // 读取图片数据
-
-      const image = new Image();
-      image.src = URL.createObjectURL(file);
-      image.onload = () => {
-        if (!scannerRef.current) {
-          scannerRef.current = new Html5Qrcode(scannerId); // 重新初始化实例
-        }
-
-        scannerRef.current.scanFile(file, true)
-          .then((decodedText: string) => {
-            setDecodedText(decodedText); // 设置解码结果
-          })
-          .catch(() => {
-            alert('no qr code');
-          });
-      };
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      if (scannerRef.current) {
-        scannerRef.current.stop().catch((error: any) => {
-          console.log('Error stopping scanner:', error);
-        });
-        scannerRef.current.clear();
-        scannerRef.current = null; // 销毁实例
-      }
+    // 打开 QRCode 界面
+    const openQRCodeScanner = () => {
+        setIsQRCodeOpen(true);
     };
-  }, []);
 
-  return (
-    <div className="scanner-container">
-      {/* 显示扫描框和最后一帧或上传的图片 */}
-      <div id={scannerId} className="scanner">
-        {uploadedImageUrl && <img src={uploadedImageUrl} alt="Uploaded QR Code" className="uploaded-image" />}
-        {lastCameraFrameUrl && <img src={lastCameraFrameUrl} alt="Camera Last Frame" className="uploaded-image" />}
-      </div>
+    // 关闭 QRCode 界面
+    const closeQRCodeScanner = () => {
+        setIsQRCodeOpen(false);
+    };
 
-      {/* 显示解码结果 */}
-      {decodedText && <p className="decoded-text">Result: {decodedText}</p>}
-      {cameraError && <p className="decoded-text">{cameraError}</p>}
+    // 处理扫码成功后的结果
+    const handleQRCodeSuccess = (result: string) => {
+        setQrCodeResult(result);
+        closeQRCodeScanner();
+    };
 
-      {/* 摄像头控制按钮 */}
-      {!isCameraOn ? (
-        <button className="start-scan-button" onClick={handleStartScan}>
-          Use camera to scan
-        </button>
-      ) : (
-        <button className="stop-scan-button" onClick={handleStopScan}>
-          Stop Scan
-        </button>
-      )}
+    // 打开图像选择器
+    const openImageSelector = () => {
+        setIsQRCodeOpen(false); // 关闭 QRCode 弹窗
+        // 这里可以添加显示上传图片的逻辑
+    };
 
-      {/* 图片扫码按钮 */}
-      <button className="image-scan-button" onClick={handleImageScan}>
-        Upload QR code image
-      </button>
+    useEffect(() => {
+        const initData = telegramWindow ? WebApp.initData : null;
+        console.log("initData", initData);
+        if (initData) {
+            const params = new URLSearchParams(initData);
+            const userJson = params.get('user'); // 获取 user 字段的 JSON 数据
+            if (userJson) {
+                const user = JSON.parse(decodeURIComponent(userJson)); // 解析 JSON 数据
+                setUserId(user.id);
+                setUserName(user.username); // 设置 User ID 和用户名
+            }
+        }
+    }, []);
 
-      {/* 隐藏的文件输入，用于图片上传 */}
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-      />
-    </div>
-  );
+    return (
+        <div className="profile-container">
+            <h2>User Profile  LV1</h2>
+            {userId && userName ? (
+                <table className="profile-table">
+                    <tbody>
+                        <tr>
+                            <td className="left-align">User ID:</td>
+                            <td className="right-align">{userId}</td>
+                        </tr>
+                        <tr>
+                            <td className="left-align">User Name:</td>
+                            <td className="right-align">{userName}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            ) : (
+                <div>Loading...</div>
+            )}
+
+            {/* 扫码结果显示 */}
+            {qrCodeResult && (
+                <div className="qr-result">
+                    QR Code Result: {qrCodeResult}
+                </div>
+            )}
+
+            {/* 打开二维码扫描的按钮 */}
+            <button className="scan-qr-button" onClick={openQRCodeScanner}>
+                Scan QR Code
+            </button>
+
+      // QRCode 弹窗界面
+            {isQRCodeOpen && (
+                <div className="qrcode-modal" onClick={closeQRCodeScanner}>
+                    <div className="qrcode-popup" onClick={(e) => e.stopPropagation()}>
+                        {/* 在这里传递 onImageScan 和 onStartScan */}
+                        <QRCode onScanSuccess={handleQRCodeSuccess} onImageScan={openImageSelector} onStartScan={true} />
+                    </div>
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default eSIM;

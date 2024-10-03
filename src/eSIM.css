@@ -1,66 +1,84 @@
-/* 扫描窗口居中 */
-.scanner-container {
-  width: 100vw;
-  height: calc(100vh - 50px);
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.scanner {
-  margin: 10px auto;
-  width: 250px;
-  height: 250px;
-  border: 3px solid #515151;
-  position: relative;
-  overflow: hidden; /* 确保图片不超出边框 */
-  display: flex; /* 使用 flexbox 布局 */
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
-}
-
-.scanner-success { 
-    border-color: #4caf50; /* 识别成功后的绿色边框 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
   }
-
-/* 上传的二维码图片和最后一帧样式 */
-.uploaded-image {
-    max-width: 100%; /* 限制图片的最大宽度为容器宽度 */
-    max-height: 100%; /* 限制图片的最大高度为容器高度 */
-    object-fit: contain; /* 确保图片缩放时保持比例，不会超出容器 */
-    display: block; /* 确保图片作为块级元素，避免内联布局问题 */
+  
+  body, html {
+    height: 100vw;
+    width: 100vh;
+    font-family: 'Consolas', monospace;
   }
-
-.decoded-text {
-  margin-top: 10px;
-  font-size: 18px;
-  color: white;
-  font-family: 'Arial', sans-serif;
-}
-
-.start-scan-button,
-.stop-scan-button,
-.image-scan-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  margin: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.stop-scan-button {
-  background-color: #f44336;
-}
-
-.image-scan-button {
-  background-color: #2196f3;
-}
-
-.start-scan-button:hover,
-.stop-scan-button:hover,
-.image-scan-button:hover {
-  opacity: 0.8;
-}
+  
+  .profile-container {
+    width: 100vw;
+    height: calc(100vh - 50px);
+    padding: 0;
+    margin: 0;
+    background-color: #000000;
+    overflow-y: auto;
+  }
+  
+  .profile-table {
+    width: 90vw; /* 表格宽度 */
+    margin: 5px auto; /* 居中并增加间距 */
+    background-color: #565656; /* 浅灰底色 */
+    border-collapse: collapse; /* 合并边框 */
+  }
+  
+  .profile-table td {
+    padding: 10px; /* 内边距 */
+    color: white; /* 白色文字 */
+    font-family: 'Consolas', monospace; /* 字体设置 */
+  }
+  
+  .profile-table .left-align {
+    text-align: left; /* 左列左对齐 */
+  }
+  
+  .profile-table .right-align {
+    text-align: right; /* 右列右对齐 */
+  }
+  
+  /* 扫码按钮样式 */
+  .scan-qr-button {
+    background-color: #4caf50;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .qr-result {
+    color: #4caf50;
+    margin-top: 10px;
+    font-size: 18px;
+  }
+  
+  /* QRCode 弹窗背景样式 */
+  .qrcode-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  
+  /* QRCode 弹窗内容样式 */
+  .qrcode-popup {
+    width: 100vw;
+    height: 60vh;
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+  }
+  

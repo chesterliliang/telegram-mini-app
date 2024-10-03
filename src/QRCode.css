@@ -1,0 +1,66 @@
+/* 扫描窗口居中 */
+.scanner-container {
+  width: 100vw;
+  height: calc(100vh - 50px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.scanner {
+  margin: 10px auto;
+  width: 250px;
+  height: 250px;
+  border: 3px solid #515151;
+  position: relative;
+  overflow: hidden; /* 确保图片不超出边框 */
+  display: flex; /* 使用 flexbox 布局 */
+  justify-content: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+
+.scanner-success { 
+    border-color: #4caf50; /* 识别成功后的绿色边框 */
+  }
+
+/* 上传的二维码图片和最后一帧样式 */
+.uploaded-image {
+    max-width: 100%; /* 限制图片的最大宽度为容器宽度 */
+    max-height: 100%; /* 限制图片的最大高度为容器高度 */
+    object-fit: contain; /* 确保图片缩放时保持比例，不会超出容器 */
+    display: block; /* 确保图片作为块级元素，避免内联布局问题 */
+  }
+
+.decoded-text {
+  margin-top: 10px;
+  font-size: 18px;
+  color: white;
+  font-family: 'Arial', sans-serif;
+}
+
+.start-scan-button,
+.stop-scan-button,
+.image-scan-button {
+  background-color: #4caf50;
+  color: white;
+  padding: 10px 20px;
+  margin: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.stop-scan-button {
+  background-color: #f44336;
+}
+
+.image-scan-button {
+  background-color: #2196f3;
+}
+
+.start-scan-button:hover,
+.stop-scan-button:hover,
+.image-scan-button:hover {
+  opacity: 0.8;
+}
