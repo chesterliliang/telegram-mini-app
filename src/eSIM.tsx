@@ -91,6 +91,7 @@ const eSIM = () => {
         .catch((error: any) => {
           console.error('Error stopping scanner:', error);
         });
+        handleStopScan();
     }
   };
 
@@ -105,17 +106,23 @@ const eSIM = () => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        const imageUrl = e.target?.result as string;
-        // 将图片URL设置为上传的图片（如果你需要在界面中展示）
+      reader.onload = (/*e*/) => {
+        //const imageUrl = e.target?.result as string;
+        //将图片URL设置为上传的图片（如果你需要在界面中展示）
       };
 
       reader.readAsDataURL(file); // 读取图片数据
 
       const image = new Image();
       image.src = URL.createObjectURL(file);
+      console.log("image.src",image.src);
       image.onload = () => {
-        Html5Qrcode.scanFile(image.src, true)
+        console.log("file",file);
+        if (!scannerRef.current) {
+          scannerRef.current = new Html5Qrcode(scannerId); // 重新初始化实例
+        }
+        console.log("scannerRef.current",scannerRef.current);
+        scannerRef.current.scanFile(file, true)
           .then((decodedText: string) => {
             setDecodedText(decodedText); // 设置解码结果
           })
