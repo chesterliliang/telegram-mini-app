@@ -4,10 +4,12 @@ import './eSIM.css'; // 引入CSS
 
 const eSIM = () => {
   const scannerRef = useRef<any>(null);
-  const fileInputRef = useRef<HTMLInputElement | null>(null); // 用于图片识别的文件输入引用
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [cameraError, setCameraError] = useState<string | null>(null);
-  const [decodedText, setDecodedText] = useState<string | null>(null); // 保存扫码结果
+  const [decodedText, setDecodedText] = useState<string | null>(null);
   const [isCameraOn, setIsCameraOn] = useState<boolean>(false);
+  const [uploadedImageUrl, setUploadedImageUrl] = useState<string | null>(null);
+  const [lastCameraFrameUrl, setLastCameraFrameUrl] = useState<string | null>(null);
   const scannerId = 'qr-code-scanner';
 
   // 启动摄像头扫码
@@ -57,11 +59,27 @@ const eSIM = () => {
               (decodedText: string) => {
                 console.log('Decoded text:', decodedText);
                 setDecodedText(decodedText);
-                handleStopScan(); // 扫码成功后停止
+
+                // 捕获最后一帧图像
+                const videoElement = document.querySelector<HTMLVideoElement>(`#${scannerId} video`);
+                if (videoElement) {
+                  const canvas = document.createElement('canvas');
+                  canvas.width = videoElement.videoWidth;
+                  canvas.height = videoElement.videoHeight;
+                  const ctx = canvas.getContext('2d');
+                  if (ctx) {
+                    ctx.drawImage(videoElement, 0, 0, canvas.width, canvas.height);
+                    const frameUrl = canvas.toDataURL('image/png');
+                    setLastCameraFrameUrl(frameUrl); // 将最后一帧保存
+                  }
+                }
+
+                handleStopScan(); // 稍微延迟后停止扫描
+                
               }
             )
             .then(() => {
-              setIsCameraOn(true); // 设置摄像头为开启状态
+              setIsCameraOn(true);
             })
             .catch((err: any) => {
               console.error('Error starting scanner:', err);
@@ -87,11 +105,11 @@ const eSIM = () => {
           scannerRef.current.clear(); // 清理扫描器实例的内容
           scannerRef.current = null; // 销毁实例
           setIsCameraOn(false); // 更新状态
+
         })
         .catch((error: any) => {
           console.error('Error stopping scanner:', error);
         });
-        handleStopScan();
     }
   };
 
@@ -106,28 +124,27 @@ const eSIM = () => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = (/*e*/) => {
-        //const imageUrl = e.target?.result as string;
-        //将图片URL设置为上传的图片（如果你需要在界面中展示）
+      reader.onload = (e) => {
+        const imageUrl = e.target?.result as string;
+        setUploadedImageUrl(imageUrl); // 将上传的图片显示在框内
+        setLastCameraFrameUrl(null); // 上传图片后移除最后一帧图像
       };
 
       reader.readAsDataURL(file); // 读取图片数据
 
       const image = new Image();
       image.src = URL.createObjectURL(file);
-      console.log("image.src",image.src);
       image.onload = () => {
-        console.log("file",file);
         if (!scannerRef.current) {
           scannerRef.current = new Html5Qrcode(scannerId); // 重新初始化实例
         }
-        console.log("scannerRef.current",scannerRef.current);
+
         scannerRef.current.scanFile(file, true)
           .then((decodedText: string) => {
             setDecodedText(decodedText); // 设置解码结果
           })
           .catch(() => {
-            alert('无法识别该图片中的二维码'); // 提示识别失败
+            alert('no qr code');
           });
       };
     }
@@ -149,7 +166,8 @@ const eSIM = () => {
     <div className="scanner-container">
       {/* 显示扫描框和最后一帧或上传的图片 */}
       <div id={scannerId} className="scanner">
-        {/* 你可以在这里显示上传的图片或最后一帧 */}
+        {uploadedImageUrl && <img src={uploadedImageUrl} alt="Uploaded QR Code" className="uploaded-image" />}
+        {lastCameraFrameUrl && <img src={lastCameraFrameUrl} alt="Camera Last Frame" className="uploaded-image" />}
       </div>
 
       {/* 显示解码结果 */}
@@ -169,7 +187,7 @@ const eSIM = () => {
 
       {/* 图片扫码按钮 */}
       <button className="image-scan-button" onClick={handleImageScan}>
-        upload QR code image
+        Upload QR code image
       </button>
 
       {/* 隐藏的文件输入，用于图片上传 */}
