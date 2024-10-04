@@ -8,50 +8,63 @@ const telegramWindow = window as unknown as Window & { Telegram: Telegram };
 export const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
 
 const eSIM = () => {
-    const [userId, setUserId] = useState<string | null>(null); // 设置为 string | null
-    const [userName, setUserName] = useState<string | null>(null); // 设置为 string | null
+    const [userId, setUserId] = useState<string | null>(null);
+    const [userName, setUserName] = useState<string | null>(null);
     const [isQRCodeOpen, setIsQRCodeOpen] = useState<boolean>(false); // 控制 QRCode 弹窗的状态
     const [qrCodeResult, setQrCodeResult] = useState<string | null>(null); // 用于存储二维码扫描结果
+    const [qrCodeError, setQrCodeError] = useState<{ code: number, status: string } | null>(null); // 存储错误信息
 
-    // 打开 QRCode 界面
+    // 打开二维码扫描界面
     const openQRCodeScanner = () => {
-        setIsQRCodeOpen(true);
+        setIsQRCodeOpen(true); // 打开 QRCode 页面
+        setQrCodeError(null);  // 清空之前的错误信息
+        setQrCodeResult(null); // 清空之前的扫描结果
     };
 
-    // 关闭 QRCode 界面
+    // 关闭二维码扫描界面
     const closeQRCodeScanner = () => {
-        setIsQRCodeOpen(false);
+        console.log('closeQRCodeScanner triggered');
+        setIsQRCodeOpen(false); // 关闭 QRCode 页面
     };
 
     // 处理扫码成功后的结果
     const handleQRCodeSuccess = (result: string) => {
+        console.log('handleQRCodeSuccess', result);
         setQrCodeResult(result);
-        closeQRCodeScanner();
+        setQrCodeError(null); // 成功后清空错误信息
+        setTimeout(() => closeQRCodeScanner(), 500); // 延迟关闭，确保状态同步
     };
 
-    // 打开图像选择器
-    const openImageSelector = () => {
-        setIsQRCodeOpen(false); // 关闭 QRCode 弹窗
-        // 这里可以添加显示上传图片的逻辑
+    // 处理扫码失败的错误信息
+    const handleQRCodeError = (error: { code: number, status: string }) => {
+        console.log('handleQRCodeError', error);
+        setQrCodeError(error);
+        setTimeout(() => closeQRCodeScanner(), 500); // 延迟关闭，确保状态同步
+    };
+
+    // 处理用户取消扫码操作
+    const handleQRCodeCancel = () => {
+        console.log('handleQRCodeCancel');
+        setQrCodeError({ code: 0, status: 'QR Code scan cancelled' });
+        closeQRCodeScanner(); // 用户取消操作后关闭 QRCode 页面
     };
 
     useEffect(() => {
         const initData = telegramWindow ? WebApp.initData : null;
-        console.log("initData", initData);
         if (initData) {
             const params = new URLSearchParams(initData);
-            const userJson = params.get('user'); // 获取 user 字段的 JSON 数据
+            const userJson = params.get('user');
             if (userJson) {
-                const user = JSON.parse(decodeURIComponent(userJson)); // 解析 JSON 数据
+                const user = JSON.parse(decodeURIComponent(userJson));
                 setUserId(user.id);
-                setUserName(user.username); // 设置 User ID 和用户名
+                setUserName(user.username);
             }
         }
     }, []);
 
     return (
         <div className="profile-container">
-            <h2>User Profile  LV1</h2>
+            <h2>User Profile LV1</h2>
             {userId && userName ? (
                 <table className="profile-table">
                     <tbody>
@@ -76,17 +89,29 @@ const eSIM = () => {
                 </div>
             )}
 
+            {/* 错误信息显示 */}
+            {qrCodeError && (
+                <div className="qr-error">
+                    Error Code: {qrCodeError.code}, Message: {qrCodeError.status}
+                </div>
+            )}
+
             {/* 打开二维码扫描的按钮 */}
             <button className="scan-qr-button" onClick={openQRCodeScanner}>
                 Scan QR Code
             </button>
 
-      // QRCode 弹窗界面
+            {/* QRCode 弹窗界面 */}
             {isQRCodeOpen && (
-                <div className="qrcode-modal" onClick={closeQRCodeScanner}>
-                    <div className="qrcode-popup" onClick={(e) => e.stopPropagation()}>
-                        {/* 在这里传递 onImageScan 和 onStartScan */}
-                        <QRCode onScanSuccess={handleQRCodeSuccess} onImageScan={openImageSelector} onStartScan={true} />
+                <div className="qrcode-modal">
+                    <div className="qrcode-popup">
+                        <QRCode
+                          onScanSuccess={handleQRCodeSuccess}
+                          onImageScan={() => console.log("Image Scan Clicked")}
+                          onStartScan={isQRCodeOpen}
+                          onError={handleQRCodeError} // 传递错误处理回调
+                          onCancel={handleQRCodeCancel} // 传递取消操作回调
+                        />
                     </div>
                 </div>
             )}
