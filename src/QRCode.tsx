@@ -8,31 +8,29 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
   const scannerContainerRef = useRef<HTMLDivElement | null>(null);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const [isCameraOn, setIsCameraOn] = useState<boolean>(false);
-  const [isTransitioning, setIsTransitioning] = useState<boolean>(false); // 防止重复操作
   const [scanInitialized, setScanInitialized] = useState<boolean>(false); // 标记摄像头是否初始化
+  const [scanAttempted, setScanAttempted] = useState<boolean>(false); // 标记是否尝试启动过
   const scannerId = 'qr-code-scanner';
 
   // 启动摄像头扫码
   const handleStartScan = () => {
     console.log('handleStartScan');
-    
-    if (isCameraOn || isTransitioning || scanInitialized) {
-      console.log('Camera is already on, transitioning, or already initialized');
+
+    // 如果摄像头已打开或正在初始化，则不重复调用
+    if (isCameraOn || scanInitialized) {
+      console.log('Camera is already on or initializing, returning early.');
       return;
     }
-    setIsTransitioning(true); // 标记为正在切换
-    setScanInitialized(true); // 标记为已初始化
+    setScanInitialized(true); // 标记摄像头初始化中
 
-    // 确保 scanner 元素已存在
     if (!scannerRef.current) {
       const scannerElement = scannerContainerRef.current;
       if (!scannerElement) {
         console.error(`HTML Element with id=${scannerId} not found`);
-        setIsTransitioning(false);
-        setScanInitialized(false); // 重置初始化标记
+        setScanInitialized(false); // 重置状态
         return;
       }
-      scannerRef.current = new Html5Qrcode(scannerId); // 初始化
+      scannerRef.current = new Html5Qrcode(scannerId); // 初始化实例
     }
 
     const config = { fps: 10, qrbox: { width: 250, height: 250 } };
@@ -62,29 +60,25 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
             .then(() => {
               console.log('Camera started successfully');
               setIsCameraOn(true);
-              setScanError(null);
-              setIsTransitioning(false); // 操作完成
+              setScanAttempted(true);
+              setTimeout(() => setScanError(null), 500); // 避免 "Failed to start scanner" 一闪而过
             })
             .catch((err: any) => {
               console.error('Error starting scanner:', err);
               setScanError('Failed to start scanner');
-              setIsTransitioning(false);
-              setScanInitialized(false); // 重置初始化标记
+              setScanInitialized(false);
               onError({ code: 500, status: 'Camera start error' });
             });
         } else {
-          console.error('No cameras found');
           setScanError('No cameras found');
-          setIsTransitioning(false);
-          setScanInitialized(false); // 重置初始化标记
+          setScanInitialized(false);
           onError({ code: 404, status: 'No cameras found' });
         }
       })
       .catch((err) => {
         console.error('Error accessing cameras:', err);
         setScanError('Failed to access cameras');
-        setIsTransitioning(false);
-        setScanInitialized(false); // 重置初始化标记
+        setScanInitialized(false);
         onError({ code: 500, status: 'Camera access error' });
       });
   };
@@ -158,7 +152,7 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
   };
 
   useEffect(() => {
-    if (onStartScan) {
+    if (onStartScan && !scanAttempted) {
       if (scannerContainerRef.current) {
         setTimeout(() => {
           console.log('Starting QR Code Scanner');
@@ -172,7 +166,7 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
         handleStopScan(true);
       }
     };
-  }, [onStartScan]);
+  }, [onStartScan, scanAttempted]);
 
   return (
     <div className="scanner-container">

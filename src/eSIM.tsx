@@ -39,6 +39,8 @@ const eSIM = () => {
     // 处理扫码失败的错误信息
     const handleQRCodeError = (error: { code: number, status: string }) => {
         console.log('handleQRCodeError:', error);
+        if(error.code==500)
+            return;
         setQrCodeError(error);
         setTimeout(() => closeQRCodeScanner(), 500); // 延迟关闭，确保状态同步
     };
@@ -111,11 +113,11 @@ const eSIM = () => {
                 <div className="qrcode-modal">
                     <div className="qrcode-popup">
                         <QRCode
-                          onScanSuccess={handleQRCodeSuccess}
-                          onImageScan={() => console.log("Image Scan Clicked")}
-                          onStartScan={isQRCodeOpen}
-                          onError={handleQRCodeError} // 传递错误处理回调
-                          onCancel={handleQRCodeCancel} // 传递取消操作回调
+                            onScanSuccess={handleQRCodeSuccess}
+                            onImageScan={() => console.log("Image Scan Clicked")}
+                            onStartScan={isQRCodeOpen}
+                            onError={handleQRCodeError} // 传递错误处理回调
+                            onCancel={handleQRCodeCancel} // 传递取消操作回调
                         />
                     </div>
                 </div>
