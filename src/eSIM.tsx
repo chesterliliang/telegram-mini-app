@@ -3,7 +3,7 @@ import './eSIM.css';
 import QRCode from './QRCode'; // 引入 QRCode 组件
 import "./telegram-web-apps";
 import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types";
-import qrsample from "./assets/Destroyer.png"
+import qrsample from "./assets/sampleQR.png"
 
 const telegramWindow = window as unknown as Window & { Telegram: Telegram };
 export const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;

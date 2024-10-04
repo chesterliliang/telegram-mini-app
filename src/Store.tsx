@@ -4,16 +4,20 @@ import cardpng from './assets/card.png';
 import logo from './assets/logo.png'; // 确保 logo 图片路径正确
 import iconGlobal from "./assets/global-line.png";
 import adIcon from './assets/ad-icon.webp'; // 添加广告图标
+import Destroyer from './assets/Destroyer.png'
+import Cruiser from './assets/Cruiser.png'
+import Battleship from './assets/Battleship.png'
+import Carrier from './assets/Carrier.png'
 import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types"; // 引用 Telegram 和 WebApp 类型
 
 const telegramWindow = window as unknown as Window & { Telegram: Telegram }; // 定义全局 window 对象，包含 Telegram
 
 // eSIM 计划定义
 const eSIMs = [
-  { id: 1, name: 'Destroyer', data: '1GB', validity: '7 days', price: '5 USD', image: cardpng },
-  { id: 2, name: 'Cruiser', data: '3GB', validity: '30 days', price: '18 USD', image: cardpng },
-  { id: 3, name: 'BattleShip', data: '20GB', validity: '365 days', price: '69 USD', image: cardpng },
-  { id: 3, name: 'Carrier', data: '120GB', validity: '365 days', price: '259 USD', image: cardpng },
+  { id: 1, name: 'Destroyer', data: '1GB', validity: '7 days', price: '5 USD', image: Destroyer },
+  { id: 2, name: 'Cruiser', data: '3GB', validity: '30 days', price: '18 USD', image: Cruiser },
+  { id: 3, name: 'BattleShip', data: '20GB', validity: '365 days', price: '69 USD', image: Battleship },
+  { id: 3, name: 'Carrier', data: '120GB', validity: '365 days', price: '259 USD', image: Carrier },
 ];
 
 interface StoreProps {

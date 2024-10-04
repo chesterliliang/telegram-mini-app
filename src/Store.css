@@ -139,9 +139,10 @@ html, body {
 }
 
 .esim-image {
-    width: 101px;
-    height: 16px;
+    width: 100px;
+    height: 30px;
     position: absolute;
+    top: 3%;
     right: 5%;
     align-items: baseline;
 }
