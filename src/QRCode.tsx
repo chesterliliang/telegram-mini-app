@@ -14,6 +14,8 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
   // 启动摄像头扫码
   const handleStartScan = () => {
     console.log('handleStartScan');
+    
+    // 防止重复启动
     if (isCameraOn || isTransitioning) {
       console.log('Camera is already on or transitioning');
       return;
@@ -42,6 +44,13 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
           );
           const cameraId = rearCameras.length > 0 ? rearCameras[0].id : devices[0].id;
           console.log('Using camera ID:', cameraId);
+          
+          // 避免重复启动错误
+          if (!isTransitioning || isCameraOn) {
+            console.log('Camera is already transitioning or on, returning early.');
+            return;
+          }
+
           scannerRef.current
             .start(
               cameraId,
@@ -50,7 +59,6 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
                 console.log('onScanSuccess:', decodedText);
                 onScanSuccess(decodedText); // 扫码成功后，将结果传递回 eSIM.tsx
                 setScanError(null); // 清除错误
-                console.log('handleStartScan onScanSuccess handleStopScan');
                 handleStopScan(); // 停止扫码
               }
             )
@@ -127,13 +135,11 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
           .then((decodedText: string) => {
             onScanSuccess(decodedText); // 成功解码二维码，将结果传递回 eSIM.tsx
             setScanError(null);
-            console.log('handleFileChange handleStopScan');
             handleStopScan(); // 成功后关闭页面
           })
           .catch(() => {
             setScanError('Failed to decode QR code');
             onError({ code: 400, status: 'QR code decode error' }); // 解码失败，传递错误信息
-            console.log('handleFileChange catch handleStopScan');
             handleStopScan(); // 失败后关闭页面
           });
       };
@@ -153,7 +159,7 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
         setTimeout(() => {
           console.log('Starting QR Code Scanner');
           handleStartScan(); // 延迟启动扫码，确保 scanner 初始化完成
-        }, 500); // 延迟 100 毫秒
+        }, 500); // 延迟 500 毫秒
       }
     }
     return () => {
