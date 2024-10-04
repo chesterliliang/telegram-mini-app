@@ -75,11 +75,11 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
           onError({ code: 404, status: 'No cameras found' });
         }
       })
-      .catch((err) => {
-        console.error('Error accessing cameras:', err);
-        setScanError('Failed to access cameras');
+      .catch((/*err*/) => {
+        //console.error('Error accessing cameras:', err);
+        //setScanError('Failed to access cameras');
         setScanInitialized(false);
-        onError({ code: 500, status: 'Camera access error' });
+        //onError({ code: 500, status: 'Camera access error' });
       });
   };
 
@@ -169,22 +169,27 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
   }, [onStartScan, scanAttempted]);
 
   return (
-    <div className="scanner-container">
-      <div ref={scannerContainerRef} id={scannerId} className="scanner"></div>
-      {scanError && <p className="error-text">{scanError}</p>}
-      <button className="image-scan-button" onClick={handleImageScan}>
-        Use Existing Image
-      </button>
-      <button className="close-scan-button" onClick={handleClose}>
-        Close
-      </button>
-      <input
-        ref={fileInputRef}
-        type="file"
-        accept="image/*"
-        onChange={handleFileChange}
-        style={{ display: 'none' }}
-      />
+    <div className="qrcode-modal"> {/* 添加 qrcode-modal 作为弹窗背景 */}
+      <div className="scanner-container">
+        <div ref={scannerContainerRef} id={scannerId} className="scanner"></div>
+        {scanError && <p className="error-text">{scanError}</p>}
+        {/* 使用链接样式的按钮 */}
+        <div className="link-buttons">
+          <a href="#" className="link-button left-link" onClick={handleImageScan}>
+            Use Existing Image
+          </a>
+          <a href="#" className="link-button right-link" onClick={handleClose}>
+            Close
+          </a>
+        </div>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept="image/*"
+          onChange={handleFileChange}
+          style={{ display: 'none' }}
+        />
+      </div>
     </div>
   );
 };

@@ -1,13 +1,30 @@
+/* 弹窗的背景覆盖样式，带有透明度效果 */
+.qrcode-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.6); /* 黑色背景，60%透明度 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* 确保弹窗覆盖在最上层 */
+  animation: fadeIn 0.5s; /* 弹窗渐入效果 */
+}
+
 /* 扫描窗口居中 */
 .scanner-container {
-  width: 100vw;
+  width: 100%;
   height: calc(100vh - 50px);
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative; /* 允许链接按钮相对于扫描窗口定位 */
 }
 
+/* 扫描区域边框添加动感效果 */
 .scanner {
   margin: 10px auto;
   width: 250px;
@@ -18,49 +35,54 @@
   display: flex; /* 使用 flexbox 布局 */
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
+  animation: borderGlow 2s infinite alternate; /* 添加动感边缘效果 */
 }
 
-.scanner-success { 
-    border-color: #4caf50; /* 识别成功后的绿色边框 */
-  }
+/* 链接按钮的样式 */
+.link-buttons {
+  width: 65%;
+  position: absolute;
+  top: 75%; /* 将链接按钮放在扫描区域的下方 */
+  display: flex;
+  justify-content: space-between; /* 左右两边对齐 */
+  padding: 0 20px;
+}
+
+.link-button {
+  font-size: 16px;
+  color: #f6f8fa;
+  text-decoration: none;
+  cursor: pointer;
+  text-decoration: underline
+}
+
+.link-button:hover {
+  text-decoration: underline;
+}
 
 /* 上传的二维码图片和最后一帧样式 */
 .uploaded-image {
-    max-width: 100%; /* 限制图片的最大宽度为容器宽度 */
-    max-height: 100%; /* 限制图片的最大高度为容器高度 */
-    object-fit: contain; /* 确保图片缩放时保持比例，不会超出容器 */
-    display: block; /* 确保图片作为块级元素，避免内联布局问题 */
+  max-width: 100%; /* 限制图片的最大宽度为容器宽度 */
+  max-height: 100%; /* 限制图片的最大高度为容器高度 */
+  object-fit: contain; /* 确保图片缩放时保持比例，不会超出容器 */
+  display: block; /* 确保图片作为块级元素，避免内联布局问题 */
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
-
-.decoded-text {
-  margin-top: 10px;
-  font-size: 18px;
-  color: white;
-  font-family: 'Arial', sans-serif;
+  to {
+    opacity: 1;
+  }
 }
 
-.start-scan-button,
-.stop-scan-button,
-.image-scan-button {
-  background-color: #4caf50;
-  color: white;
-  padding: 10px 20px;
-  margin: 10px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-}
-
-.stop-scan-button {
-  background-color: #f44336;
-}
-
-.image-scan-button {
-  background-color: #2196f3;
-}
-
-.start-scan-button:hover,
-.stop-scan-button:hover,
-.image-scan-button:hover {
-  opacity: 0.8;
+@keyframes borderGlow {
+  from {
+    border-color: #515151;
+  }
+  to {
+    border-color: #ff9800;
+  }
 }
