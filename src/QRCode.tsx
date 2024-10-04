@@ -61,13 +61,13 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
               console.log('Camera started successfully');
               setIsCameraOn(true);
               setScanAttempted(true);
-              setTimeout(() => setScanError(null), 500); // 避免 "Failed to start scanner" 一闪而过
+              setTimeout(() => setScanError(null), 200); // 避免 "Failed to start scanner" 一闪而过
             })
             .catch((err: any) => {
               console.error('Error starting scanner:', err);
               setScanError('Failed to start scanner');
               setScanInitialized(false);
-              onError({ code: 500, status: 'Camera start error' });
+              onError({ code: 200, status: 'Camera start error' });
             });
         } else {
           setScanError('No cameras found');
@@ -157,7 +157,7 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
         setTimeout(() => {
           console.log('Starting QR Code Scanner');
           handleStartScan(); // 延迟启动扫码，确保 scanner 初始化完成
-        }, 500); // 延迟 500 毫秒
+        }, 200); // 延迟 500 毫秒
       }
     }
     return () => {
