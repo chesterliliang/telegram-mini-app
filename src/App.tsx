@@ -3,7 +3,7 @@ import './App.css';
 import Store from './Store';
 import UeSIM from './eSIM';
 import Points from './Points';
-import Profile from './Profile';
+import Earn from './Earn';
 import Payment from './Payment'; // 导入 Payment 组件
 
 import iconStore_Line from './assets/store-line.png';
@@ -29,8 +29,8 @@ const App = () => {
         return <Store onBuyNow={setSelectedPlan} setActiveTab={setActiveTab} />; // 传递 setActiveTab
       case 'eSIM':
         return <UeSIM />; // 传递 onScanSuccess 属性
-      case 'Profile':
-        return <Profile />;
+      case 'Earn':
+        return <Earn />;
       case 'Payment':
         return <Payment planType={selectedPlan} />; // 传递选中的 Plan 类型
       default:
@@ -60,10 +60,10 @@ const App = () => {
             <span className={activeTab === 'eSIM' ? 'active-tab' : ''}>eSIM</span>
           </div>
         </button>
-        <button onClick={() => setActiveTab('Profile')}>
+        <button onClick={() => setActiveTab('Earn')}>
           <div className="tab-icon-container">
-            <img src={activeTab === 'Profile' ? iconProfile_Fill : iconProfile_Line} alt="Profile Icon" className="tab-icon" />
-            <span className={activeTab === 'Profile' ? 'active-tab' : ''}>Profile</span>
+            <img src={activeTab === 'Earn' ? iconProfile_Fill : iconProfile_Line} alt="Earn Icon" className="tab-icon" />
+            <span className={activeTab === 'Earn' ? 'active-tab' : ''}>Earn</span>
           </div>
         </button>
       </div>
