@@ -15,6 +15,7 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
   const handleStartScan = () => {
     console.log('handleStartScan');
     if (isCameraOn || isTransitioning) {
+      console.log('Camera is already on or transitioning');
       return;
     }
     setIsTransitioning(true); // 标记为正在切换
@@ -23,6 +24,7 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
     if (!scannerRef.current) {
       const scannerElement = scannerContainerRef.current;
       if (!scannerElement) {
+        console.error(`HTML Element with id=${scannerId} not found`);
         setIsTransitioning(false);
         return;
       }
@@ -33,19 +35,19 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
 
     Html5Qrcode.getCameras()
       .then((devices) => {
-        console.log('devices', devices);
+        console.log('Available devices:', devices);
         if (devices && devices.length) {
           const rearCameras = devices.filter(device =>
             device.label.toLowerCase().includes('back') || device.label.toLowerCase().includes('rear')
           );
           const cameraId = rearCameras.length > 0 ? rearCameras[0].id : devices[0].id;
-          console.log('cameraId', cameraId);
+          console.log('Using camera ID:', cameraId);
           scannerRef.current
             .start(
               cameraId,
               config,
               (decodedText: string) => {
-                console.log('onScanSuccess', decodedText);
+                console.log('onScanSuccess:', decodedText);
                 onScanSuccess(decodedText); // 扫码成功后，将结果传递回 eSIM.tsx
                 setScanError(null); // 清除错误
                 console.log('handleStartScan onScanSuccess handleStopScan');
@@ -53,18 +55,19 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
               }
             )
             .then(() => {
-              console.log('setScanError(null)');
+              console.log('Camera started successfully');
               setIsCameraOn(true);
-              setTimeout(() => setScanError(null), 500); // 避免 "Failed to start scanner" 一闪而过
+              setScanError(null);
               setIsTransitioning(false); // 操作完成
             })
             .catch((err: any) => {
               console.error('Error starting scanner:', err);
-              setScanError('Failed to start scanner'); // 设置错误信息
+              setScanError('Failed to start scanner');
               setIsTransitioning(false);
               onError({ code: 500, status: 'Camera start error' });
             });
         } else {
+          console.error('No cameras found');
           setScanError('No cameras found');
           setIsTransitioning(false);
           onError({ code: 404, status: 'No cameras found' });
@@ -148,12 +151,12 @@ const QRCode = ({ onScanSuccess, onImageScan, onStartScan, onError, onCancel }: 
     if (onStartScan) {
       if (scannerContainerRef.current) {
         setTimeout(() => {
+          console.log('Starting QR Code Scanner');
           handleStartScan(); // 延迟启动扫码，确保 scanner 初始化完成
         }, 500); // 延迟 100 毫秒
       }
     }
     return () => {
-      // 确保只在组件卸载时才停止扫码
       if (scannerRef.current && isCameraOn) {
         console.log('useEffect return handleStopScan');
         handleStopScan();

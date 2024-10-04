@@ -16,6 +16,7 @@ const eSIM = () => {
 
     // 打开二维码扫描界面
     const openQRCodeScanner = () => {
+        console.log('Opening QRCode Scanner');
         setIsQRCodeOpen(true); // 打开 QRCode 页面
         setQrCodeError(null);  // 清空之前的错误信息
         setQrCodeResult(null); // 清空之前的扫描结果
@@ -23,13 +24,13 @@ const eSIM = () => {
 
     // 关闭二维码扫描界面
     const closeQRCodeScanner = () => {
-        console.log('closeQRCodeScanner triggered');
+        console.log('closeQRCodeScanner triggered, isQRCodeOpen:', isQRCodeOpen);
         setIsQRCodeOpen(false); // 关闭 QRCode 页面
     };
 
     // 处理扫码成功后的结果
     const handleQRCodeSuccess = (result: string) => {
-        console.log('handleQRCodeSuccess', result);
+        console.log('handleQRCodeSuccess:', result);
         setQrCodeResult(result);
         setQrCodeError(null); // 成功后清空错误信息
         setTimeout(() => closeQRCodeScanner(), 500); // 延迟关闭，确保状态同步
@@ -37,7 +38,7 @@ const eSIM = () => {
 
     // 处理扫码失败的错误信息
     const handleQRCodeError = (error: { code: number, status: string }) => {
-        console.log('handleQRCodeError', error);
+        console.log('handleQRCodeError:', error);
         setQrCodeError(error);
         setTimeout(() => closeQRCodeScanner(), 500); // 延迟关闭，确保状态同步
     };
@@ -48,6 +49,10 @@ const eSIM = () => {
         setQrCodeError({ code: 0, status: 'QR Code scan cancelled' });
         closeQRCodeScanner(); // 用户取消操作后关闭 QRCode 页面
     };
+
+    useEffect(() => {
+        console.log('useEffect: isQRCodeOpen changed:', isQRCodeOpen);
+    }, [isQRCodeOpen]);
 
     useEffect(() => {
         const initData = telegramWindow ? WebApp.initData : null;
