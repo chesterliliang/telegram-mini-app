@@ -120,6 +120,7 @@ html, body {
     position: relative;
     border-radius: 15px;
     overflow: hidden;
+    align-items: baseline;
 }
 
 .esim-table td {
@@ -128,19 +129,21 @@ html, body {
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     font-family: 'Consolas', monospace;
     font-size: 14px;
+    align-items: baseline;
 }
 
 .image-cell {
     position: relative;
     text-align: right;
+    align-items: baseline;
 }
 
 .esim-image {
     width: 101px;
-    height: 64px;
+    height: 16px;
     position: absolute;
-    top: 3%;
     right: 5%;
+    align-items: baseline;
 }
 
 .icon {

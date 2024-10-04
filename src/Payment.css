@@ -1,14 +1,16 @@
 .payment-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;  /* Vertically centers the content */
-    align-items: center;       /* Horizontally centers the content */
-    height: 100vh;             /* Takes the full height of the viewport */
-    text-align: center;
-    color: white;
-    font-family: 'Consolas', monospace;
-    padding: 20px;
-  }
+  width: 100vw; 
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;  /* Start from the top */
+  align-items: center;          /* Horizontally centers the content */
+  height: 100vh;                /* Takes the full height of the viewport */
+  text-align: center;
+  color: white;
+  font-family: 'Consolas', monospace;
+  box-sizing: border-box;
+  padding-top: 5vh;            /* Start content from 15% of the viewport height */
+}
   
   h1 {
     font-size: 24px;
@@ -16,8 +18,8 @@
   }
   
   .summary-table {
-    width: 50%;                /* Set the table width to 50% for better readability */
-    background-color: transparent;
+    width: 60vw;                /* Set the table width to 50% for better readability */
+    background-color: #1d1d1d;
     border-collapse: collapse;
     margin-bottom: 20px;
   }
@@ -36,7 +38,9 @@
     text-align: right;
   }
   
-  .pay-button {
+  .ton-button {
+    margin: 2vh;
+    width: 80vw;
     background-color: #e4a945;
     border: none;
     color: white;
@@ -45,3 +49,13 @@
     border-radius: 8px;
   }
   
+  .pay-button {
+    margin: 2vh;
+    width: 35vw;
+    background-color: #4572e4;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 30px;
+  }

@@ -10,9 +10,10 @@ const telegramWindow = window as unknown as Window & { Telegram: Telegram }; // 
 
 // eSIM 计划定义
 const eSIMs = [
-  { id: 1, name: 'Plan A', data: '1GB', validity: '7 days', price: '5 USD', image: cardpng },
-  { id: 2, name: 'Plan B', data: '3GB', validity: '30 days', price: '18 USD', image: cardpng },
-  { id: 3, name: 'Plan C', data: '10GB', validity: '180 days', price: '49 USD', image: cardpng },
+  { id: 1, name: 'Destroyer', data: '1GB', validity: '7 days', price: '5 USD', image: cardpng },
+  { id: 2, name: 'Cruiser', data: '3GB', validity: '30 days', price: '18 USD', image: cardpng },
+  { id: 3, name: 'BattleShip', data: '20GB', validity: '365 days', price: '69 USD', image: cardpng },
+  { id: 3, name: 'Carrier', data: '120GB', validity: '365 days', price: '259 USD', image: cardpng },
 ];
 
 interface StoreProps {
@@ -82,8 +83,8 @@ const Store: React.FC<StoreProps> = ({ onBuyNow, setActiveTab }) => {
         <div className="esim-table-container" key={eSIM.id}>
           <table className="esim-table">
             <tbody>
-              <tr style={{ height: '70px' }}>
-                <td style={{ verticalAlign: 'bottom' }}>Global</td>
+              <tr>
+                <td>Global</td>
                 <td className="image-cell">
                   <img src={eSIM.image} alt={eSIM.name} className="esim-image" />
                 </td>

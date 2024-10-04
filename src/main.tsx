@@ -5,8 +5,7 @@ import ReactDOM from 'react-dom/client';
 import { Provider } from 'react-redux';
 import { store } from './redux/store';
 
-// TonConnect UI
-import { TonConnectUIProvider } from '@tonconnect/ui-react';
+
 
 // Rainbow Kit
 import './polyfills';
@@ -35,9 +34,7 @@ const root = ReactDOM.createRoot(
 root.render(
     <React.StrictMode>
         <Provider store={store}>
-            <TonConnectUIProvider manifestUrl="https://softstack.github.io/telegram-mini-app/tonconnect-manifest.json">
                 <App />
-            </TonConnectUIProvider>
         </Provider>
     </React.StrictMode>
 );
