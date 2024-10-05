@@ -141,3 +141,14 @@ body, html {
 .close-qr-button:hover {
   background-color: #8c5322; /* 鼠标悬停时变暗 */
 }
+
+.qr-result-text {
+  padding: 10px 20px auto;
+  margin-left: 10vw;
+  width: 80vw;
+  word-wrap: break-word; /* 自动换行 */
+  color: white;
+  text-align: center;
+  margin-top: 10px;
+  font-family: 'Consolas', monospace;
+}

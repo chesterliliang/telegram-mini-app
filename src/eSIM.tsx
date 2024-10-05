@@ -127,7 +127,7 @@ const eSIM = () => {
                         <img src={qrsample} alt={`${selectedPlan} QR Code`} className="qr-code-image" />
                         <button className="close-qr-button" onClick={closePlanQRCode}>Close</button>
                     </div>
-                    
+
                 </div>
             )}
 
@@ -149,6 +149,13 @@ const eSIM = () => {
             <button className="scan-qr-button" onClick={openQRCodeScanner}>
                 Link DeSIM Card Reader
             </button>
+
+            {/* 显示扫码后的结果 */}
+            {qrCodeResult && (
+                <div className="qr-result-text">
+                    {qrCodeResult}
+                </div>
+            )}
 
             {/* QRCode 弹窗界面 */}
             {isQRCodeOpen && (
