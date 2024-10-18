@@ -176,7 +176,7 @@ body, html {
 
 .card-image {
     width: 35vw;
-    border-radius: 10px;
+    border-radius: 15px;
     animation: glow-icon 3s infinite alternate;
     margin-bottom: 1%;
 }
@@ -246,8 +246,8 @@ body, html {
 }
 
 .points-text {
-    color: #FFFFFF;
-    font-size: 16px;
+    color: rgba(0, 255, 255, 1);
+    font-size: 24px;
 }
 
 .points-value {
@@ -256,6 +256,15 @@ body, html {
     justify-content: center;
     font-size: 36px;
     font-weight: bold;
+    color: rgb(240, 156, 73);
+    margin-top: 2%;
+}
+
+.address-value {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
     color: rgb(240, 156, 73);
     margin-top: 2%;
 }
@@ -273,8 +282,8 @@ body, html {
 
 /* 图标发光 */
 @keyframes glow-icon {
-    from { box-shadow: 0 0 15px rgba(0, 255, 255, 0.7); }
-    to { box-shadow: 0 0 25px rgba(0, 255, 255, 1); }
+    from { box-shadow: 0 0 25px rgba(0, 255, 255, 0.7); }
+    to { box-shadow: 0 0 45px rgba(0, 255, 255, 1); }
 }
 
 /* 新增按钮的样式 */
