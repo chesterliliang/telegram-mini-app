@@ -2,8 +2,8 @@ import { useState } from 'react';
 import './App.css';
 import Store from './Store';
 import UeSIM from './eSIM';
-import Points from './Points';
-import Earn from './Earn';
+import Home from './Home';
+import Action from './Action';
 import Payment from './Payment'; // 导入 Payment 组件
 
 import iconStore_Line from './assets/store-line.png';
@@ -17,24 +17,24 @@ import iconProfile_Fill from './assets/profile-fill.png';
 
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState('Points');
+  const [activeTab, setActiveTab] = useState('Home');
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null); // 修改状态类型
 
 
   const renderContent = () => {
     switch (activeTab) {
-      case 'Points':
-        return <Points />;
+      case 'Home':
+        return <Home />;
       case 'Store':
         return <Store onBuyNow={setSelectedPlan} setActiveTab={setActiveTab} />; // 传递 setActiveTab
       case 'eSIM':
         return <UeSIM />; // 传递 onScanSuccess 属性
-      case 'Earn':
-        return <Earn />;
+      case 'Action':
+        return <Action />;
       case 'Payment':
         return <Payment planType={selectedPlan} />; // 传递选中的 Plan 类型
       default:
-        return <Points />;
+        return <Home />;
     }
   };
 
@@ -42,10 +42,10 @@ const App = () => {
     <div>
       {renderContent()}
       <div className="tab-container">
-        <button onClick={() => setActiveTab('Points')}>
+        <button onClick={() => setActiveTab('Home')}>
           <div className="tab-icon-container">
-            <img src={activeTab === 'Points' ? iconToken_Fill : iconToken_Line} alt="Token Icon" className="tab-icon" />
-            <span className={activeTab === 'Points' ? 'active-tab' : ''}>Points</span>
+            <img src={activeTab === 'Home' ? iconToken_Fill : iconToken_Line} alt="Token Icon" className="tab-icon" />
+            <span className={activeTab === 'Home' ? 'active-tab' : ''}>Home</span>
           </div>
         </button>
         <button onClick={() => setActiveTab('Store')}>
@@ -60,10 +60,10 @@ const App = () => {
             <span className={activeTab === 'eSIM' ? 'active-tab' : ''}>eSIM</span>
           </div>
         </button>
-        <button onClick={() => setActiveTab('Earn')}>
+        <button onClick={() => setActiveTab('Action')}>
           <div className="tab-icon-container">
-            <img src={activeTab === 'Earn' ? iconProfile_Fill : iconProfile_Line} alt="Earn Icon" className="tab-icon" />
-            <span className={activeTab === 'Earn' ? 'active-tab' : ''}>Earn</span>
+            <img src={activeTab === 'Action' ? iconProfile_Fill : iconProfile_Line} alt="Earn Icon" className="tab-icon" />
+            <span className={activeTab === 'Action' ? 'active-tab' : ''}>Action</span>
           </div>
         </button>
       </div>

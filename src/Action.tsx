@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import "./telegram-web-apps";
 import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types";
-import './Earn.css';
+import './Action.css';
 // import { Connection, Keypair, PublicKey } from '@solana/web3.js';
 // import { getOrCreateAssociatedTokenAccount } from '@solana/spl-token';
 // import idJson from './id.json';
@@ -17,7 +17,7 @@ const telegramWindow = window as unknown as Window & { Telegram: Telegram };
 
 export const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
 
-const Profile = () => {
+const Action = () => {
   //const [userId, setUserId] = useState<string | null>(null); // 设置为 string | null
   //const [userName, setUserName] = useState<string | null>(null); // 设置为 string | null
   // const [balance, setBalance] = useState<number | null>(null); // 设置为某Sol余额
@@ -119,4 +119,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default Action;

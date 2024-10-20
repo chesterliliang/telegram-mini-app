@@ -1,4 +1,4 @@
-import './Points.css';
+import './Home.css';
 import { useEffect, useState } from 'react';
 import cardH from './assets/cardH2.png';
 import ship1 from './assets/ship1.png'
@@ -11,14 +11,15 @@ import axios from 'axios';
 
 const telegramWindow = window as unknown as Window & { Telegram: Telegram };
 const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
-
-const Points = () => {
+let audio: HTMLAudioElement | null = null;
+const Home = () => {
   const [points, setPoints] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
   const [username, setUsername] = useState<string>('Username');
   const [highlightPoints] = useState<boolean>(false);
 
   const [shipPosition, setShipPosition] = useState({ top: '50%', left: '0%' });
+  const [isAgent, setIsAgent] = useState<boolean>(false);
 
   // 生成随机位置，但确保不在页面的中心区域
   const getRandomPosition = () => {
@@ -100,20 +101,21 @@ const Points = () => {
 
   // 页面加载后播放音乐和调用登录函数
   useEffect(() => {
-    const audio = new Audio(starWarsTheme); // 创建音频对象
-    audio.play(); // 播放音频
-    audio.loop = false; // 设置循环播放
+    if (!audio) {
+      audio = new Audio(starWarsTheme); // 创建音频对象
+      audio.play(); // 播放音频
+      audio.loop = false; // 设置不循环播放
+    }
 
     async function Login(): Promise<void> {
       try {
         const initData = telegramWindow ? WebApp.initData : null;
         if (initData) {
           const params = new URLSearchParams(initData);
-          var user =null;
+          var user = null;
           const userJson = params.get('user');
           if (userJson) {
             user = JSON.parse(decodeURIComponent(userJson));
-           
           }
         }
         const response = await axios.post('http://localhost:3000/login', {
@@ -126,6 +128,8 @@ const Points = () => {
         } else {
           console.warn('Address not found in response data');
         }
+        console.log(`user info ${response.data}`);
+        setIsAgent(response.data.isagent);
       } catch (error: any) {
         if (error.response) {
           console.error('Test /login error response:', error.response.data);
@@ -139,18 +143,20 @@ const Points = () => {
 
   return (
     <div className="points-container">
-      <img
-        src={ship1}
-        alt="Ship"
-        className="ship1-image"
-        style={{
-          position: 'absolute',
-          top: shipPosition.top,
-          left: shipPosition.left,
-          transition: 'top 4s ease, left 6s ease' // 平滑过渡
-        }}
-        onClick={handleShipClick}
-      />
+      {!isAgent && (
+        <img
+          src={ship1}
+          alt="Ship"
+          className="ship1-image"
+          style={{
+            position: 'absolute',
+            top: shipPosition.top,
+            left: shipPosition.left,
+            transition: 'top 4s ease, left 6s ease' // 平滑过渡
+          }}
+          onClick={handleShipClick}
+        />
+      )}
       {/* 广告栏 */}
       <div className="ad-bar">
         <span className="ad-text">The Rebellion aimed to spread physical esim card all over the world as the seed of freedom. A New Hope
@@ -214,4 +220,4 @@ const Points = () => {
   );
 };
 
-export default Points;
+export default Home;
