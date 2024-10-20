@@ -1,10 +1,12 @@
 import { useState } from 'react';
+import Launch from './Launch'; // 导入 Launch 组件
 import './App.css';
 import Store from './Store';
 import UeSIM from './eSIM';
 import Home from './Home';
 import Action from './Action';
-import Payment from './Payment'; // 导入 Payment 组件
+import { GlobalProvider } from './GlobalContext';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';//, useNavigate
 
 import iconStore_Line from './assets/store-line.png';
 import iconStore_Fill from './assets/store-fill.png';
@@ -15,59 +17,70 @@ import iconToken_Fill from './assets/money-dollar-circle-fill.png';
 import iconProfile_Line from './assets/profile-line.png';
 import iconProfile_Fill from './assets/profile-fill.png';
 
-
-const App = () => {
-  const [activeTab, setActiveTab] = useState('Home');
-  const [selectedPlan, setSelectedPlan] = useState<string | null>(null); // 修改状态类型
-
+const App: React.FC = () => {
+  const [activeTab, setActiveTab] = useState('Launch');
+  const [showTabs, setShowTabs] = useState(false);
 
   const renderContent = () => {
     switch (activeTab) {
       case 'Home':
         return <Home />;
       case 'Store':
-        return <Store onBuyNow={setSelectedPlan} setActiveTab={setActiveTab} />; // 传递 setActiveTab
+        return <Store />;
       case 'eSIM':
-        return <UeSIM />; // 传递 onScanSuccess 属性
+        return <UeSIM />;
       case 'Action':
         return <Action />;
-      case 'Payment':
-        return <Payment planType={selectedPlan} />; // 传递选中的 Plan 类型
+      case 'Launch':
+        return <Launch onLaunchComplete={() => {
+          setActiveTab('Home');
+          setShowTabs(true);
+        }} />;
       default:
         return <Home />;
     }
   };
 
   return (
-    <div>
-      {renderContent()}
-      <div className="tab-container">
-        <button onClick={() => setActiveTab('Home')}>
-          <div className="tab-icon-container">
-            <img src={activeTab === 'Home' ? iconToken_Fill : iconToken_Line} alt="Token Icon" className="tab-icon" />
-            <span className={activeTab === 'Home' ? 'active-tab' : ''}>Home</span>
-          </div>
-        </button>
-        <button onClick={() => setActiveTab('Store')}>
-          <div className="tab-icon-container">
-            <img src={activeTab === 'Store' ? iconStore_Fill : iconStore_Line} alt="Store Icon" className="tab-icon" />
-            <span className={activeTab === 'Store' ? 'active-tab' : ''}>Store</span>
-          </div>
-        </button>
-        <button onClick={() => setActiveTab('eSIM')}>
-          <div className="tab-icon-container">
-            <img src={activeTab === 'eSIM' ? iconSIM_Fill : iconSIM_Line} alt="eSIM Icon" className="tab-icon" />
-            <span className={activeTab === 'eSIM' ? 'active-tab' : ''}>eSIM</span>
-          </div>
-        </button>
-        <button onClick={() => setActiveTab('Action')}>
-          <div className="tab-icon-container">
-            <img src={activeTab === 'Action' ? iconProfile_Fill : iconProfile_Line} alt="Earn Icon" className="tab-icon" />
-            <span className={activeTab === 'Action' ? 'active-tab' : ''}>Action</span>
-          </div>
-        </button>
-      </div>
-    </div>
+    <GlobalProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={
+            <div>
+              {renderContent()}
+              {showTabs && (
+                <div className="tab-container">
+                  <button onClick={() => setActiveTab('Home')}>
+                    <div className="tab-icon-container">
+                      <img src={activeTab === 'Home' ? iconToken_Fill : iconToken_Line} alt="Token Icon" className="tab-icon" />
+                      <span className={activeTab === 'Home' ? 'active-tab' : ''}>Home</span>
+                    </div>
+                  </button>
+                  <button onClick={() => setActiveTab('Store')}>
+                    <div className="tab-icon-container">
+                      <img src={activeTab === 'Store' ? iconStore_Fill : iconStore_Line} alt="Store Icon" className="tab-icon" />
+                      <span className={activeTab === 'Store' ? 'active-tab' : ''}>Store</span>
+                    </div>
+                  </button>
+                  <button onClick={() => setActiveTab('eSIM')}>
+                    <div className="tab-icon-container">
+                      <img src={activeTab === 'eSIM' ? iconSIM_Fill : iconSIM_Line} alt="eSIM Icon" className="tab-icon" />
+                      <span className={activeTab === 'eSIM' ? 'active-tab' : ''}>eSIM</span>
+                    </div>
+                  </button>
+                  <button onClick={() => setActiveTab('Action')}>
+                    <div className="tab-icon-container">
+                      <img src={activeTab === 'Action' ? iconProfile_Fill : iconProfile_Line} alt="Earn Icon" className="tab-icon" />
+                      <span className={activeTab === 'Action' ? 'active-tab' : ''}>Action</span>
+                    </div>
+                  </button>
+                </div>
+              )}
+            </div>
+          } />
+        </Routes>
+      </Router>
+    </GlobalProvider>
   );
 };
 

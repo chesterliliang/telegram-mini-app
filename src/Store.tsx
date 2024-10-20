@@ -8,6 +8,7 @@ import Destroyer from './assets/Destroyer.png'
 import Cruiser from './assets/Cruiser.png'
 import Battleship from './assets/Battleship.png'
 import Carrier from './assets/Carrier.png'
+import { useNavigate } from 'react-router-dom';
 import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types"; // 引用 Telegram 和 WebApp 类型
 
 const telegramWindow = window as unknown as Window & { Telegram: Telegram }; // 定义全局 window 对象，包含 Telegram
@@ -20,12 +21,12 @@ const eSIMs = [
   { id: 3, name: 'Carrier', data: '120GB', validity: '365 days', price: '259 USD', image: Carrier },
 ];
 
-interface StoreProps {
-  onBuyNow: (planType: string) => void;
-  setActiveTab: (tab: string) => void;
-}
+// interface StoreProps {
+//   onBuyNow: (planType: string) => void;
+//   setActiveTab: (tab: string) => void;
+// }
 
-const Store: React.FC<StoreProps> = ({ onBuyNow, setActiveTab }) => {
+const Store: React.FC = () => {
   const [tgName, setTgName] = useState<string>('Name'); // 默认值为 "Name"
 
   // 通过 telegramWindow 获取用户名
@@ -52,8 +53,9 @@ const Store: React.FC<StoreProps> = ({ onBuyNow, setActiveTab }) => {
   }, []);
 
   const handleBuyNow = (planType: string) => {
-    onBuyNow(planType);
-    setActiveTab('Payment');
+    console.log(`buy plan ${planType}`);
+    const navigate = useNavigate();
+    navigate('/payment', { state: { redirectUrl: '/store' } });
   };
 
   return (

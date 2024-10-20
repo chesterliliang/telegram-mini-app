@@ -6,6 +6,7 @@ import logo from './assets/ra.png';
 import coin from './assets/coinsy64.svg';
 import iconsetting from './assets/settings-line.svg';
 import starWarsTheme from './assets/starwarmusic.mp3';
+import { useGlobalContext } from './GlobalContext'; // 假设 GlobalContext.tsx 在相同目录或合适路径
 import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types";
 import axios from 'axios';
 
@@ -13,6 +14,8 @@ const telegramWindow = window as unknown as Window & { Telegram: Telegram };
 const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
 let audio: HTMLAudioElement | null = null;
 const Home = () => {
+  const { user } = useGlobalContext(); // 从全局上下文中解构出 user
+  console.log('Current User:', user);
   const [points, setPoints] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
   const [username, setUsername] = useState<string>('Username');
