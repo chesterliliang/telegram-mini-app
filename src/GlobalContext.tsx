@@ -19,7 +19,7 @@ interface GlobalContextType {
   gDevid: string;
   setDevid: React.Dispatch<React.SetStateAction<string>>;
   gAction: string;
-  setAction: React.Dispatch<React.SetStateAction<string>>;
+  setgAction: React.Dispatch<React.SetStateAction<string>>;
 
 }
 
@@ -37,7 +37,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
   const [gIsagent, setgIsagent] = useState<boolean>(false);
   const [gRid, setgRid] = useState<string>('');
   const [gDevid, setDevid] = useState<string>('');
-  const [gAction, setAction] = useState<string>('idle');
+  const [gAction, setgAction] = useState<string>('idle');
 
   return (
     <GlobalContext.Provider value={{ 
@@ -49,7 +49,7 @@ export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) 
       gIsagent, setgIsagent,
       gRid, setgRid,
       gDevid, setDevid,
-      gAction,setAction
+      gAction,setgAction
       }}>
       {children}
     </GlobalContext.Provider>

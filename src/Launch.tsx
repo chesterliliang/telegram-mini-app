@@ -1,11 +1,16 @@
 import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from './GlobalContext';
 import axios from 'axios';
 import { Telegram, WebApp as WebAppTypes } from '@twa-dev/types';
 import './Launch.css';
 import ship3 from './assets/ship3.png';
 import loading from './assets/loading.svg';
+import cardH from './assets/cardH2.png';
+import ship1 from './assets/ship1.png';
+import logo from './assets/ra.png';
+import coin from './assets/coinsy64.svg';
+import iconsetting from './assets/settings-line.svg';
+import starWarsTheme from './assets/starwarmusic.mp3';
 
 const telegramWindow = window as unknown as Window & { Telegram: Telegram };
 
@@ -14,7 +19,6 @@ interface LaunchProps {
 }
 
 const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
-  const navigate = useNavigate();
   const {
     gUsername, setgUsername,
     gTid, setgTid,
@@ -26,8 +30,28 @@ const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
     gDevid, setDevid,
   } = useGlobalContext();
   useEffect(() => {
+    const loadImages = async () => {
+      // Load initial images
+      await Promise.all([
+        new Promise((resolve) => {
+          const img = new Image();
+          img.src = ship3;
+          img.onload = resolve;
+        }),
+        new Promise((resolve) => {
+          const img = new Image();
+          img.src = loading;
+          img.onload = resolve;
+        })
+      ]);
+      // Images loaded, now proceed with login
+      getTelegramDataAndLogin();
+    };
 
-    // 获取 Telegram 用户 ID 和用户名
+    loadImages();
+  }, []);
+
+  const getTelegramDataAndLogin = () => {
     let telegramData: { telegramId?: string; telegramUsername?: string } = {};
     if (telegramWindow.Telegram) {
       const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
@@ -52,7 +76,6 @@ const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
       }
     }
 
-    // 调用 login 方法
     const login = async (telegramId: string) => {
       try {
         const response = await axios.post('http://localhost:3000/login', {
@@ -61,10 +84,11 @@ const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
         console.log('Login response:', response.data);
         setgAddress(response.data.address);
         setgBalance(response.data.balance);
-        setgIsact(response.data.isact)
+        setgIsact(response.data.isact);
         setgIsagent(response.data.isagent);
         setgRid(response.data.rid);
         setDevid(response.data.devid);
+        await loadRemainingAssets();
         onLaunchComplete();
       } catch (error: any) {
         console.error('Login error:', error.message);
@@ -74,7 +98,42 @@ const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
     if (telegramData.telegramId) {
       login(telegramData.telegramId);
     }
-  }, [setgUsername, setgTid, setgIsagent, setgAddress,setgIsact, setgRid, setDevid, navigate]);
+  };
+
+  const loadRemainingAssets = async () => {
+    await Promise.all([
+      new Promise((resolve) => {
+        const img = new Image();
+        img.src = cardH;
+        img.onload = resolve;
+      }),
+      new Promise((resolve) => {
+        const img = new Image();
+        img.src = ship1;
+        img.onload = resolve;
+      }),
+      new Promise((resolve) => {
+        const img = new Image();
+        img.src = logo;
+        img.onload = resolve;
+      }),
+      new Promise((resolve) => {
+        const img = new Image();
+        img.src = coin;
+        img.onload = resolve;
+      }),
+      new Promise((resolve) => {
+        const img = new Image();
+        img.src = iconsetting;
+        img.onload = resolve;
+      }),
+      new Promise((resolve) => {
+        const audio = new Audio(starWarsTheme);
+        audio.onloadeddata = resolve;
+      })
+    ]);
+  };
+  
 
   useEffect(() => {
     console.log(`Updated gUsername ${gUsername}`);

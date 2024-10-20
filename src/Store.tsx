@@ -8,7 +8,6 @@ import Destroyer from './assets/Destroyer.png'
 import Cruiser from './assets/Cruiser.png'
 import Battleship from './assets/Battleship.png'
 import Carrier from './assets/Carrier.png'
-import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from './GlobalContext'; // 假设 GlobalContext.tsx 在相同目录或合适路径
 
 // eSIM 计划定义
@@ -19,14 +18,14 @@ const eSIMs = [
   { id: 3, name: 'Carrier', data: '120GB', validity: '365 days', price: '259 USD', image: Carrier },
 ];
 
-// interface StoreProps {
-//   onBuyNow: (planType: string) => void;
-//   setActiveTab: (tab: string) => void;
-// }
+interface StoreProps {
+  onStore2pay: () => void;
+}
 
-const Store: React.FC = () => {
+const Store: React.FC<StoreProps> = ({onStore2pay}) => {
   const {
     gUsername,
+    setgAction,
     // gTid,
     // gIsact,
     // gAddress,
@@ -44,8 +43,8 @@ const Store: React.FC = () => {
 
   const handleBuyNow = (planType: string) => {
     console.log(`buy plan ${planType}`);
-    const navigate = useNavigate();
-    navigate('/payment', { state: { redirectUrl: '/store' } });
+    setgAction(planType);
+    onStore2pay();
   };
 
   return (

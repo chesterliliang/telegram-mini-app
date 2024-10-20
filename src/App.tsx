@@ -4,8 +4,10 @@ import './App.css';
 import Store from './Store';
 import UeSIM from './eSIM';
 import Home from './Home';
+import Payment from './Payment';
 import Action from './Action';
 import { GlobalProvider } from './GlobalContext';
+import { useGlobalContext } from './GlobalContext'; // 假设 GlobalContext.tsx 在相同目录或合适路径
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';//, useNavigate
 
 import iconStore_Line from './assets/store-line.png';
@@ -20,17 +22,39 @@ import iconProfile_Fill from './assets/profile-fill.png';
 const App: React.FC = () => {
   const [activeTab, setActiveTab] = useState('Launch');
   const [showTabs, setShowTabs] = useState(false);
-
+  
   const renderContent = () => {
+    const { gAction, setgAction } = useGlobalContext();
     switch (activeTab) {
       case 'Home':
         return <Home />;
       case 'Store':
-        return <Store />;
+        return <Store onStore2pay={() => {
+          setActiveTab('Payment');
+          setShowTabs(true);
+        }} />;
       case 'eSIM':
         return <UeSIM />;
       case 'Action':
         return <Action />;
+      case 'Payment':
+        return (
+          <Payment
+            onback2page={() => {
+              // const { gAction, setgAction } = useGlobalContext();
+              // console.log(`page ${gAction}`);
+              if (gAction === 'Detroyer') {
+                setActiveTab('eSIM');
+                setgAction('idle');
+                setShowTabs(true);
+              } else {
+                setActiveTab('Action');
+                setgAction('idle');
+                setShowTabs(true);
+              }
+            }}
+          />
+        );
       case 'Launch':
         return <Launch onLaunchComplete={() => {
           setActiveTab('Home');
@@ -42,7 +66,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <GlobalProvider>
+
       <Router>
         <Routes>
           <Route path="/" element={
@@ -80,8 +104,16 @@ const App: React.FC = () => {
           } />
         </Routes>
       </Router>
+   
+  );
+};
+
+const WrappedApp: React.FC = () => {
+  return (
+    <GlobalProvider>
+      <App />
     </GlobalProvider>
   );
 };
 
-export default App;
+export default WrappedApp;
