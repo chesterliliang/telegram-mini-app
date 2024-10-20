@@ -2,12 +2,25 @@ import React, { createContext, useContext, useState, ReactNode } from 'react';
 
 // 定义全局状态的类型
 interface GlobalContextType {
-  globalValue: string;
-  setGlobalValue: React.Dispatch<React.SetStateAction<string>>;
-  user: string;
-  setUser: React.Dispatch<React.SetStateAction<string>>;
-  action: string;
+  gUsername: string;
+  setgUsername: React.Dispatch<React.SetStateAction<string>>;
+  gTid: string;
+  setgTid: React.Dispatch<React.SetStateAction<string>>;
+  gIsact: boolean;
+  setgIsact: React.Dispatch<React.SetStateAction<boolean>>;
+  gAddress: string;
+  setgAddress: React.Dispatch<React.SetStateAction<string>>;
+  gBalance: number;
+  setgBalance: React.Dispatch<React.SetStateAction<number>>;
+  gIsagent: boolean;
+  setgIsagent: React.Dispatch<React.SetStateAction<boolean>>;
+  gRid: string;
+  setgRid: React.Dispatch<React.SetStateAction<string>>;
+  gDevid: string;
+  setDevid: React.Dispatch<React.SetStateAction<string>>;
+  gAction: string;
   setAction: React.Dispatch<React.SetStateAction<string>>;
+
 }
 
 // 创建 Context
@@ -15,12 +28,29 @@ const GlobalContext = createContext<GlobalContextType | undefined>(undefined);
 
 // 创建 Provider 组件
 export const GlobalProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [globalValue, setGlobalValue] = useState<string>('default value');
-  const [user, setUser] = useState<string>('default user');
-  const [action, setAction] = useState<string>('default action');
+
+  const [gUsername, setgUsername] = useState<string>('');
+  const [gTid, setgTid] = useState<string>('');
+  const [gIsact, setgIsact] = useState<boolean>(false);
+  const [gAddress, setgAddress] = useState<string>('');
+  const [gBalance, setgBalance] = useState<number>(0);
+  const [gIsagent, setgIsagent] = useState<boolean>(false);
+  const [gRid, setgRid] = useState<string>('');
+  const [gDevid, setDevid] = useState<string>('');
+  const [gAction, setAction] = useState<string>('idle');
 
   return (
-    <GlobalContext.Provider value={{ globalValue, setGlobalValue, user, setUser, action, setAction }}>
+    <GlobalContext.Provider value={{ 
+      gUsername, setgUsername, 
+      gTid, setgTid,
+      gIsact,setgIsact, 
+      gAddress, setgAddress,
+      gBalance, setgBalance,
+      gIsagent, setgIsagent,
+      gRid, setgRid,
+      gDevid, setDevid,
+      gAction,setAction
+      }}>
       {children}
     </GlobalContext.Provider>
   );

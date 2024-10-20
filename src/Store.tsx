@@ -9,9 +9,7 @@ import Cruiser from './assets/Cruiser.png'
 import Battleship from './assets/Battleship.png'
 import Carrier from './assets/Carrier.png'
 import { useNavigate } from 'react-router-dom';
-import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types"; // 引用 Telegram 和 WebApp 类型
-
-const telegramWindow = window as unknown as Window & { Telegram: Telegram }; // 定义全局 window 对象，包含 Telegram
+import { useGlobalContext } from './GlobalContext'; // 假设 GlobalContext.tsx 在相同目录或合适路径
 
 // eSIM 计划定义
 const eSIMs = [
@@ -27,29 +25,21 @@ const eSIMs = [
 // }
 
 const Store: React.FC = () => {
+  const {
+    gUsername,
+    // gTid,
+    // gIsact,
+    // gAddress,
+    // gBalance,
+    // gIsagent,
+    // gRid,
+    // gDevid,
+  } = useGlobalContext();
   const [tgName, setTgName] = useState<string>('Name'); // 默认值为 "Name"
 
   // 通过 telegramWindow 获取用户名
   useEffect(() => {
-    if (telegramWindow.Telegram) {
-      const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
-      WebApp.ready(); // 确保 WebApp 准备就绪
-      const initData = WebApp.initData || ''; // 获取 Telegram 初始化数据
-      if (initData) {
-        try {
-          const params = new URLSearchParams(initData);
-          const userJson = params.get('user'); // 获取 user 字段的 JSON 数据
-          if (userJson) {
-            const user = JSON.parse(decodeURIComponent(userJson)); // 解析 JSON 数据
-            if (user && user.username) {
-              setTgName(user.username); // 设置为用户名
-            }
-          }
-        } catch (error) {
-          console.error('Failed to parse Telegram init data:', error);
-        }
-      }
-    }
+    setTgName(gUsername);
   }, []);
 
   const handleBuyNow = (planType: string) => {

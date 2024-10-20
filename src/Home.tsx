@@ -7,15 +7,29 @@ import coin from './assets/coinsy64.svg';
 import iconsetting from './assets/settings-line.svg';
 import starWarsTheme from './assets/starwarmusic.mp3';
 import { useGlobalContext } from './GlobalContext'; // 假设 GlobalContext.tsx 在相同目录或合适路径
-import { Telegram, WebApp as WebAppTypes } from "@twa-dev/types";
-import axios from 'axios';
 
-const telegramWindow = window as unknown as Window & { Telegram: Telegram };
-const WebApp: WebAppTypes = telegramWindow.Telegram.WebApp;
 let audio: HTMLAudioElement | null = null;
 const Home = () => {
-  const { user } = useGlobalContext(); // 从全局上下文中解构出 user
-  console.log('Current User:', user);
+  const {
+    gUsername,
+    gTid,
+    gIsact,
+    gAddress,
+    gBalance,
+    gIsagent,
+    gRid,
+    gDevid,
+  } = useGlobalContext();
+
+  console.log(`Home gUsername: ${gUsername}`);
+  console.log(`Home gTid: ${gTid}`);
+  console.log(`Home gIsact: ${gIsact}`);
+  console.log(`Home gAddress: ${gAddress}`);
+  console.log(`Home gBalance: ${gBalance}`)
+  console.log(`Home gIsagent: ${gIsagent}`);
+  console.log(`Home gRid: ${gRid}`);
+  console.log(`Home gDevid: ${gDevid}`);
+
   const [points, setPoints] = useState<number>(0);
   const [address, setAddress] = useState<string>('');
   const [username, setUsername] = useState<string>('Username');
@@ -89,18 +103,6 @@ const Home = () => {
     document.body.appendChild(overlay);
   };
 
-  // 获取 Telegram 用户名
-  useEffect(() => {
-    const initData = telegramWindow ? WebApp.initData : null;
-    if (initData) {
-      const params = new URLSearchParams(initData);
-      const userJson = params.get('user');
-      if (userJson) {
-        const user = JSON.parse(decodeURIComponent(userJson));
-        setUsername(user.username || 'Username');
-      }
-    }
-  }, []);
 
   // 页面加载后播放音乐和调用登录函数
   useEffect(() => {
@@ -109,39 +111,11 @@ const Home = () => {
       audio.play(); // 播放音频
       audio.loop = false; // 设置不循环播放
     }
+    setUsername(gUsername);
+    setPoints(gBalance);
+    setAddress(gAddress);
+    setIsAgent(gIsagent);
 
-    async function Login(): Promise<void> {
-      try {
-        const initData = telegramWindow ? WebApp.initData : null;
-        if (initData) {
-          const params = new URLSearchParams(initData);
-          var user = null;
-          const userJson = params.get('user');
-          if (userJson) {
-            user = JSON.parse(decodeURIComponent(userJson));
-          }
-        }
-        const response = await axios.post('http://localhost:3000/login', {
-          tid: user.id
-        });
-        console.log('Test /login response:', response.data);
-        setPoints(response.data.balance);
-        if (response.data.address) {
-          setAddress(response.data.address);
-        } else {
-          console.warn('Address not found in response data');
-        }
-        console.log(`user info ${response.data}`);
-        setIsAgent(response.data.isagent);
-      } catch (error: any) {
-        if (error.response) {
-          console.error('Test /login error response:', error.response.data);
-        } else {
-          console.error('Test /login error:', error.message);
-        }
-      }
-    }
-    Login();
   }, []);
 
   return (

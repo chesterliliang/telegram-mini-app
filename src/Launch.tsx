@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useGlobalContext } from './GlobalContext';
 import axios from 'axios';
 import { Telegram, WebApp as WebAppTypes } from '@twa-dev/types';
 import './Launch.css';
+import ship3 from './assets/ship3.png';
+import loading from './assets/loading.svg';
 
 const telegramWindow = window as unknown as Window & { Telegram: Telegram };
 
@@ -12,15 +14,18 @@ interface LaunchProps {
 }
 
 const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
-  const [counter, setCounter] = useState<number>(0);
-  const { setUser } = useGlobalContext();
   const navigate = useNavigate();
-
+  const {
+    gUsername, setgUsername,
+    gTid, setgTid,
+    gIsact, setgIsact,
+    gAddress, setgAddress,
+    gBalance,setgBalance,
+    gIsagent, setgIsagent,
+    gRid, setgRid,
+    gDevid, setDevid,
+  } = useGlobalContext();
   useEffect(() => {
-    // 计时器，每秒更新一次
-    const timer = setInterval(() => {
-      setCounter((prevCounter) => prevCounter + 1);
-    }, 1000);
 
     // 获取 Telegram 用户 ID 和用户名
     let telegramData: { telegramId?: string; telegramUsername?: string } = {};
@@ -38,6 +43,8 @@ const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
               telegramId: user.id,
               telegramUsername: user.username,
             };
+            setgUsername(user.username);
+            setgTid(user.id);
           }
         } catch (error) {
           console.error('Failed to parse Telegram init data:', error);
@@ -52,7 +59,12 @@ const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
           tid: telegramId
         });
         console.log('Login response:', response.data);
-        setUser({ ...telegramData, ...response.data }); // 将 Telegram 数据和登录返回的数据合并后赋值给全局变量 user
+        setgAddress(response.data.address);
+        setgBalance(response.data.balance);
+        setgIsact(response.data.isact)
+        setgIsagent(response.data.isagent);
+        setgRid(response.data.rid);
+        setDevid(response.data.devid);
         onLaunchComplete();
       } catch (error: any) {
         console.error('Login error:', error.message);
@@ -62,15 +74,23 @@ const Launch: React.FC<LaunchProps> = ({ onLaunchComplete }) => {
     if (telegramData.telegramId) {
       login(telegramData.telegramId);
     }
+  }, [setgUsername, setgTid, setgIsagent, setgAddress,setgIsact, setgRid, setDevid, navigate]);
 
-    return () => {
-      clearInterval(timer);
-    };
-  }, [setUser, navigate]);
+  useEffect(() => {
+    console.log(`Updated gUsername ${gUsername}`);
+    console.log(`Updated gTid ${gTid}`);
+    console.log(`Updated gIsact ${gIsact}`);
+    console.log(`Updated gAddress ${gAddress}`);
+    console.log(`Updated gIsagent ${gIsagent}`);
+    console.log(`Updated gBalance ${gBalance}`);
+    console.log(`Updated gRid ${gRid}`);
+    console.log(`Updated gDevid ${gDevid}`);
+  }, [gUsername,gTid,gIsact,gAddress,gIsagent,gRid,gDevid]);
 
   return (
     <div className="launch-container">
-      <h1 className="counter-display">{counter}</h1>
+      <img src={ship3} alt="Ship" className="ship-image" />
+      <img src={loading} alt="Loading" className="loading-image" />
     </div>
   );
 };
